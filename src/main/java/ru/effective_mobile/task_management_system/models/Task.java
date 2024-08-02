@@ -43,7 +43,7 @@ public class Task {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @ManyToOne(cascade = ALL,
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},
             fetch = LAZY)
     @JoinColumn(name = "performer_id")
     private User performer;
