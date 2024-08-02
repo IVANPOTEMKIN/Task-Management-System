@@ -1,4 +1,4 @@
-package ru.effective_mobile.task_management_system.models;
+package ru.effective_mobile.task_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

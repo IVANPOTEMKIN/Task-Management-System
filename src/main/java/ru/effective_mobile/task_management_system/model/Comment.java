@@ -1,18 +1,14 @@
-package ru.effective_mobile.task_management_system.models;
+package ru.effective_mobile.task_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.effective_mobile.task_management_system.enums.PriorityTask;
-import ru.effective_mobile.task_management_system.enums.StatusTask;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
-import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
@@ -21,22 +17,12 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "tasks")
-public class Task {
+@Entity(name = "comments")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
-    private String header;
-
-    private String description;
-
-    @Enumerated(STRING)
-    private StatusTask status;
-
-    @Enumerated(STRING)
-    private PriorityTask priority;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},
             fetch = LAZY)
@@ -45,15 +31,12 @@ public class Task {
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},
             fetch = LAZY)
-    @JoinColumn(name = "performer_id")
-    private User performer;
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+    private String text;
 
     @Temporal(TIMESTAMP)
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "task",
-            cascade = ALL,
-            orphanRemoval = true)
-    private List<Comment> comments;
 }
