@@ -1,4 +1,4 @@
-package ru.effectivemobile.task_management_system;
+package ru.effective_mobile.task_management_system;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
