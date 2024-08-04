@@ -17,7 +17,7 @@ public class CreateOrUpdateCommentDTO {
 
     @Schema(description = "Текст комментария")
     @Size(min = 10, max = 100,
-            message = "Описание задачи должно быть от 10 до 100 символов")
-    @NotBlank(message = "Комментария не может быть пустым")
+            message = "Текст комментария должен быть от 10 до 100 символов")
+    @NotBlank(message = "Текст комментария не может быть пустым")
     private String text;
 }

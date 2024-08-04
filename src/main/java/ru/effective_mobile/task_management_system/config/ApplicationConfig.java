@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.effective_mobile.task_management_system.exception.UserNotFoundException;
 import ru.effective_mobile.task_management_system.model.User;
+import ru.effective_mobile.task_management_system.model.UserDetailsImpl;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
 
 @Configuration
@@ -27,11 +28,9 @@ public class ApplicationConfig {
             User user = userRepository.findByEmail(username)
                     .orElseThrow(UserNotFoundException::new);
 
-            return User.builder()
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .password(user.getPassword())
-                    .role(user.getRole())
+            return UserDetailsImpl
+                    .builder()
+                    .user(user)
                     .build();
         };
     }

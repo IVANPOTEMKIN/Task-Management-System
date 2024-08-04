@@ -1,9 +1,9 @@
 package ru.effective_mobile.task_management_system.service;
 
 import jakarta.validation.Valid;
-import ru.effective_mobile.task_management_system.dto.JwtDTO;
-import ru.effective_mobile.task_management_system.dto.LoginDTO;
-import ru.effective_mobile.task_management_system.dto.RegisterDTO;
+import ru.effective_mobile.task_management_system.dto.security.JwtDTO;
+import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
+import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 
 public interface AuthService {
 

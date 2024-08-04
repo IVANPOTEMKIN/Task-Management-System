@@ -14,12 +14,12 @@ import ru.effective_mobile.task_management_system.enums.StatusTask;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на создание/изменение данных задачи автором")
-public class CreateOrUpdateTaskByAuthorDTO {
+@Schema(description = "Запрос на создание задачи")
+public class CreateTaskDTO {
 
     @Schema(description = "Заголовок задачи")
-    @Size(min = 4, max = 20,
-            message = "Заголовок задачи должен быть от 4 до 20 символов")
+    @Size(min = 10, max = 30,
+            message = "Заголовок задачи должен быть от 10 до 30 символов")
     @NotBlank(message = "Заголовок задачи не может быть пустым")
     private String header;
 
@@ -30,16 +30,8 @@ public class CreateOrUpdateTaskByAuthorDTO {
     private String description;
 
     @Schema(description = "Статус задачи")
-    @NotBlank(message = "Статус задачи не может быть пустым")
     private StatusTask status;
 
     @Schema(description = "Приоритет задачи")
-    @NotBlank(message = "Приоритет задачи не может быть пустым")
     private PriorityTask priority;
-
-    @Schema(description = "Имя исполнителя задачи")
-    @Size(min = 2, max = 16,
-            message = "Имя исполнителя задачи должно быть от 2 до 16 символов")
-    @NotBlank(message = "Имя исполнителя задачи не может быть пустым")
-    private String performer;
 }

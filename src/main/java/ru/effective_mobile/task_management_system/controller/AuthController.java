@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.effective_mobile.task_management_system.dto.JwtDTO;
-import ru.effective_mobile.task_management_system.dto.LoginDTO;
-import ru.effective_mobile.task_management_system.dto.RegisterDTO;
+import ru.effective_mobile.task_management_system.dto.security.JwtDTO;
+import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
+import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 import ru.effective_mobile.task_management_system.service.AuthService;
 
 @RestController

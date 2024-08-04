@@ -11,8 +11,8 @@ import ru.effective_mobile.task_management_system.enums.StatusTask;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на обновление статуса задачи исполнителем")
-public class UpdateTaskByPerformerDTO {
+@Schema(description = "Запрос на изменение статуса задачи")
+public class UpdateStatusTaskDTO {
 
     @Schema(description = "Статус задачи")
     private StatusTask status;

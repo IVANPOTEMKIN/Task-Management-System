@@ -1,4 +1,4 @@
-package ru.effective_mobile.task_management_system.dto;
+package ru.effective_mobile.task_management_system.dto.security;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "Ответ c токеном доступа")
 public class JwtDTO {
 

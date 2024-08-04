@@ -2,15 +2,11 @@ package ru.effective_mobile.task_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import ru.effective_mobile.task_management_system.enums.Role;
 
-import java.util.Collection;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.*;
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -20,15 +16,19 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(unique = true,
+    @Column(name = "first_name",
             nullable = false)
-    private String username;
+    private String firstName;
+
+    @Column(name = "last_name",
+            nullable = false)
+    private String lastName;
 
     @Column(unique = true,
             nullable = false)
@@ -46,37 +46,11 @@ public class User implements UserDetails {
             orphanRemoval = true)
     private List<Task> createdTasks;
 
-    @OneToMany(mappedBy = "performer",
-            cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @OneToMany(mappedBy = "performer")
     private List<Task> completedTasks;
 
     @OneToMany(mappedBy = "author",
             cascade = ALL,
             orphanRemoval = true)
     private List<Comment> comments;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

@@ -3,24 +3,30 @@ package ru.effective_mobile.task_management_system.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import ru.effective_mobile.task_management_system.dto.tasks.CreateOrUpdateTaskByAuthorDTO;
+import ru.effective_mobile.task_management_system.dto.tasks.CreateTaskDTO;
 import ru.effective_mobile.task_management_system.dto.tasks.TaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdateTaskByPerformerDTO;
+import ru.effective_mobile.task_management_system.dto.tasks.UpdateDataTaskDTO;
+import ru.effective_mobile.task_management_system.dto.tasks.UpdateStatusTaskDTO;
 import ru.effective_mobile.task_management_system.model.Task;
+
+import static ru.effective_mobile.task_management_system.mapper.utils.Utils.EXPRESSION_FOR_CONCAT_FULL_NAME_OF_AUTHOR_TASK;
+import static ru.effective_mobile.task_management_system.mapper.utils.Utils.EXPRESSION_FOR_CONCAT_FULL_NAME_OF_PERFORMER_TASK;
 
 @Mapper
 public interface TaskMapper {
 
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
-    @Mapping(source = "task.author.username", target = "author")
+    @Mapping(expression = EXPRESSION_FOR_CONCAT_FULL_NAME_OF_AUTHOR_TASK, target = "author")
     @Mapping(source = "task.author.email", target = "authorEmail")
-    @Mapping(source = "task.performer.username", target = "performer")
+    @Mapping(expression = EXPRESSION_FOR_CONCAT_FULL_NAME_OF_PERFORMER_TASK, target = "performer")
     @Mapping(source = "task.performer.email", target = "performerEmail")
     TaskDTO taskToTaskDTO(Task task);
 
-    @Mapping(source = "createOrUpdateTaskByAuthor.performer", target = "performer.username")
-    Task createOrUpdateTaskByAuthorToTask(CreateOrUpdateTaskByAuthorDTO createOrUpdateTaskByAuthor);
+    Task createTaskDTOToTask(CreateTaskDTO createTaskDTO);
 
-    Task updateTaskByPerformerToTask(UpdateTaskByPerformerDTO updateTaskByPerformer);
+    @Mapping(source = "updateDataTaskDTO.performer", target = "performer.email")
+    Task updateDataTaskDTOToTask(UpdateDataTaskDTO updateDataTaskDTO);
+
+    Task updateStatusTaskDTOToTask(UpdateStatusTaskDTO updateStatusTaskDTO);
 }
