@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.effective_mobile.task_management_system.dto.security.JwtDTO;
 import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
 import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
-import ru.effective_mobile.task_management_system.exception.EmailAlreadyUse;
+import ru.effective_mobile.task_management_system.exception.EmailAlreadyUseException;
 import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFoundException;
 import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.model.UserDetailsImpl;
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     public JwtDTO register(RegisterDTO dto) {
 
         if (userRepository.findByEmail(dto.getEmail().toLowerCase()).isPresent()) {
-            throw new EmailAlreadyUse();
+            throw new EmailAlreadyUseException();
         }
 
         var userDetails = UserDetailsImpl

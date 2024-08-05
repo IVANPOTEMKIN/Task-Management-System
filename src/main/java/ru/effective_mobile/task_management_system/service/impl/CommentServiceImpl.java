@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
         Task task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
-        return commentRepository.findAllByTask(task, PageRequest.of(offset, limit))
+        return commentRepository.findAllByTask(task, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::commentToCommentDTO)
                 .toList();
@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
         User author = userRepository.findById(id)
                 .orElseThrow(UserIdNotFoundException::new);
 
-        return commentRepository.findAllByAuthor(author, PageRequest.of(offset, limit))
+        return commentRepository.findAllByAuthor(author, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::commentToCommentDTO)
                 .toList();
@@ -94,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
         User author = userRepository.findById(authorId)
                 .orElseThrow(UserIdNotFoundException::new);
 
-        return commentRepository.findAllByTaskAndAuthor(task, author, PageRequest.of(offset, limit))
+        return commentRepository.findAllByTaskAndAuthor(task, author, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::commentToCommentDTO)
                 .toList();

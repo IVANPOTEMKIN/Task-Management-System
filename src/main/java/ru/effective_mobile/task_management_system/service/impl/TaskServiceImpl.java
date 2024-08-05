@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> getAllTasks(Integer offset, Integer limit) {
         return taskRepository
-                .findAll(PageRequest.of(offset, limit))
+                .findAll(PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -76,7 +76,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> getAllTasksByHeader(String header, Integer offset, Integer limit) {
         return taskRepository
-                .findAllByHeaderContainingIgnoreCase(header, PageRequest.of(offset, limit))
+                .findAllByHeaderContainingIgnoreCase(header, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> getAllTasksByStatus(StatusTask status, Integer offset, Integer limit) {
         return taskRepository
-                .findAllByStatus(status, PageRequest.of(offset, limit))
+                .findAllByStatus(status, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> getAllTasksByPriority(PriorityTask priority, Integer offset, Integer limit) {
         return taskRepository
-                .findAllByPriority(priority, PageRequest.of(offset, limit))
+                .findAllByPriority(priority, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -106,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(author, PageRequest.of(offset, limit))
+                .findAllByAuthor(author, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -118,7 +118,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
-                .findAllByPerformer(performer, PageRequest.of(offset, limit))
+                .findAllByPerformer(performer, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -130,7 +130,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserEmailNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(author, PageRequest.of(offset, limit))
+                .findAllByAuthor(author, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -142,7 +142,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserEmailNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(performer, PageRequest.of(offset, limit))
+                .findAllByAuthor(performer, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -156,7 +156,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(author, PageRequest.of(offset, limit))
+                .findAllByAuthor(author, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -170,7 +170,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(performer, PageRequest.of(offset, limit))
+                .findAllByAuthor(performer, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();

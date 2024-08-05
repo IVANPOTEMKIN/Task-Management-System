@@ -1,6 +1,7 @@
 package ru.effective_mobile.task_management_system.service;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import ru.effective_mobile.task_management_system.dto.tasks.*;
 import ru.effective_mobile.task_management_system.enums.PriorityTask;
 import ru.effective_mobile.task_management_system.enums.StatusTask;
@@ -22,7 +23,7 @@ public interface TaskService {
      * @param id ID задачи
      * @return задача
      */
-    TaskDTO getTaskById(Long id);
+    TaskDTO getTaskById(@Positive Long id);
 
     /**
      * Получение списка всех задач
@@ -31,7 +32,8 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasks(Integer offset, Integer limit);
+    List<TaskDTO> getAllTasks(@Positive Integer offset,
+                              @Positive Integer limit);
 
     /**
      * Получение списка всех задач по заголовку задачи
@@ -41,7 +43,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByHeader(String header, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByHeader(String header,
+                                      @Valid Integer offset,
+                                      @Valid Integer limit);
 
     /**
      * Получение списка всех задач по статусу задачи
@@ -51,7 +55,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByStatus(StatusTask status, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByStatus(StatusTask status,
+                                      @Positive Integer offset,
+                                      @Positive Integer limit);
 
     /**
      * Получение списка всех задач по приоритету задачи
@@ -61,7 +67,9 @@ public interface TaskService {
      * @param limit    кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByPriority(PriorityTask priority, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByPriority(PriorityTask priority,
+                                        @Positive Integer offset,
+                                        @Positive Integer limit);
 
     /**
      * Получение списка всех задач по ID автора задачи
@@ -71,7 +79,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByAuthorId(Long id, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByAuthorId(@Positive Long id,
+                                        @Positive Integer offset,
+                                        @Positive Integer limit);
 
     /**
      * Получение списка всех задач по ID исполнителя задачи
@@ -81,7 +91,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByPerformerId(Long id, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByPerformerId(@Positive Long id,
+                                           @Positive Integer offset,
+                                           @Positive Integer limit);
 
     /**
      * Получение списка всех задач по email автора задачи
@@ -91,7 +103,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByAuthorEmail(String email, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByAuthorEmail(String email,
+                                           @Positive Integer offset,
+                                           @Positive Integer limit);
 
     /**
      * Получение списка всех задач по email исполнителя задачи
@@ -101,7 +115,9 @@ public interface TaskService {
      * @param limit  кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByPerformerEmail(String email, Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByPerformerEmail(String email,
+                                              @Positive Integer offset,
+                                              @Positive Integer limit);
 
     /**
      * Получение списка всех задач по имени автора задачи
@@ -112,8 +128,10 @@ public interface TaskService {
      * @param limit     кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByAuthorFullName(String firstName, String lastName,
-                                              Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByAuthorFullName(String firstName,
+                                              String lastName,
+                                              @Positive Integer offset,
+                                              @Positive Integer limit);
 
     /**
      * Получение списка всех задач по имени исполнителя задачи
@@ -124,8 +142,10 @@ public interface TaskService {
      * @param limit     кол-во задач на странице
      * @return список задач
      */
-    List<TaskDTO> getAllTasksByPerformerFullName(String firstName, String lastName,
-                                                 Integer offset, Integer limit);
+    List<TaskDTO> getAllTasksByPerformerFullName(String firstName,
+                                                 String lastName,
+                                                 @Positive Integer offset,
+                                                 @Positive Integer limit);
 
     /**
      * Изменение заголовка задачи по ID
@@ -133,7 +153,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto заголовок задачи
      */
-    void editHeaderTaskById(Long id, @Valid UpdateHeaderTaskDTO dto);
+    void editHeaderTaskById(@Positive Long id,
+                            @Valid UpdateHeaderTaskDTO dto);
 
     /**
      * Изменение описания задачи по ID
@@ -141,7 +162,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto описание задачи
      */
-    void editDescriptionTaskById(Long id, @Valid UpdateDescriptionTaskDTO dto);
+    void editDescriptionTaskById(@Positive Long id,
+                                 @Valid UpdateDescriptionTaskDTO dto);
 
     /**
      * Изменение исполнителя задачи по ID
@@ -149,7 +171,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto email исполнителя задачи
      */
-    void editPerformerTaskById(Long id, @Valid UpdatePerformerTaskDTO dto);
+    void editPerformerTaskById(@Positive Long id,
+                               @Valid UpdatePerformerTaskDTO dto);
 
     /**
      * Изменение приоритета задачи по ID
@@ -157,7 +180,8 @@ public interface TaskService {
      * @param id       ID задачи
      * @param priority приоритет задачи
      */
-    void editPriorityTaskById(Long id, PriorityTask priority);
+    void editPriorityTaskById(@Positive Long id,
+                              PriorityTask priority);
 
     /**
      * Изменение статуса задачи по ID
@@ -165,12 +189,13 @@ public interface TaskService {
      * @param id     ID задачи
      * @param status статус задачи
      */
-    void editStatusTaskById(Long id, StatusTask status);
+    void editStatusTaskById(@Positive Long id,
+                            StatusTask status);
 
     /**
      * Удаление задачи по ID
      *
      * @param id ID задачи
      */
-    void deleteTaskById(Long id);
+    void deleteTaskById(@Positive Long id);
 }

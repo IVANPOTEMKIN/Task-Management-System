@@ -1,8 +1,8 @@
 package ru.effective_mobile.task_management_system.exception;
 
-public class EmailAlreadyUse extends RuntimeException {
+public class EmailAlreadyUseException extends RuntimeException {
 
-    public EmailAlreadyUse() {
+    public EmailAlreadyUseException() {
         super("Данный email уже используется!");
     }
 }
