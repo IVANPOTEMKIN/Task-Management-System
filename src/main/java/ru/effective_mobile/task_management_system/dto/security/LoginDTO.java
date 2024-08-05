@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,17 +18,13 @@ import lombok.NoArgsConstructor;
 public class LoginDTO {
 
     @Schema(description = "Email")
-    @Pattern(regexp = "^([a-zA-Z0-9]+)([a-zA-Z0-9.]*)@([a-zA-Z]+)\\.([a-zA-Z]{2,6})$")
+    @Pattern(regexp = PATTERN_EMAIL)
     @NotBlank(message = "Email не может быть пустым")
     private String email;
 
     @Schema(description = "Пароль")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&=+.])(?=\\S+$).{8,}$",
-            message = """
-                    Пароль должен быть не менее 8 символов
-                    Пароль должен содержать минимум одну прописную букву
-                    Пароль должен содержать минимум одну заглавную букву
-                    Пароль должен содержать минимум один специальный знак - @#$%^&=+.""")
+    @Pattern(regexp = PATTERN_PASSWORD,
+            message = PASSWORD_MESSAGE)
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 }

@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,33 +18,25 @@ import lombok.NoArgsConstructor;
 public class RegisterDTO {
 
     @Schema(description = "Имя пользователя")
-    @Pattern(regexp = "^[а-яёА-ЯЁa-zA-Z]{2,15}$",
-            message = """
-                    Имя пользователя должно быть от 2 до 15 символов
-                    Имя пользователя должно содержать только буквы""")
+    @Pattern(regexp = PATTERN_NAME,
+            message = FIRST_NAME_MESSAGE)
     @NotBlank(message = "Имя пользователя не может быть пустым")
     private String firstName;
 
     @Schema(description = "Фамилия пользователя")
-    @Pattern(regexp = "^[а-яёА-ЯЁa-zA-Z]{2,15}$",
-            message = """
-                    Фамилия пользователя должна быть от 2 до 15 символов
-                    Фамилия пользователя должна содержать только буквы""")
+    @Pattern(regexp = PATTERN_NAME,
+            message = LAST_NAME_MESSAGE)
     @NotBlank(message = "Фамилия пользователя не может быть пустым")
     private String lastName;
 
     @Schema(description = "Email")
-    @Pattern(regexp = "^([a-zA-Z0-9]+)([a-zA-Z0-9.]*)@([a-zA-Z]+)\\.([a-zA-Z]{2,6})$")
+    @Pattern(regexp = PATTERN_EMAIL)
     @NotBlank(message = "Email не может быть пустым")
     private String email;
 
     @Schema(description = "Пароль")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&=+.])(?=\\S+$).{8,}$",
-            message = """
-                    Пароль должен быть не менее 8 символов
-                    Пароль должен содержать минимум одну прописную букву
-                    Пароль должен содержать минимум одну заглавную букву
-                    Пароль должен содержать минимум один специальный знак - @#$%^&=+.""")
+    @Pattern(regexp = PATTERN_PASSWORD,
+            message = PASSWORD_MESSAGE)
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 }
