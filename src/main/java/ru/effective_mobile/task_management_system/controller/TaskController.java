@@ -128,62 +128,62 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getAllTasksByPerformerFullName(firstName, lastName, offset - 1, limit));
     }
 
-    @Operation(summary = "Изменение заголовка задачи по ID задачи")
+    @Operation(summary = "Изменение заголовка задачи по ID")
     @SecurityRequirement(name = "JWT")
     @PatchMapping("/edit/{id}/header")
-    public ResponseEntity<?> editHeaderTask(@PathVariable Long id,
-                                            @RequestBody UpdateHeaderTaskDTO dto) {
+    public ResponseEntity<?> editHeaderTaskById(@PathVariable Long id,
+                                                @RequestBody UpdateHeaderTaskDTO dto) {
 
-        taskService.editHeaderTask(id, dto);
+        taskService.editHeaderTaskById(id, dto);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Изменение описания задачи по ID задачи")
+    @Operation(summary = "Изменение описания задачи по ID")
     @SecurityRequirement(name = "JWT")
     @PatchMapping("/edit/{id}/description")
-    public ResponseEntity<?> editDescriptionTask(@PathVariable Long id,
-                                                 @RequestBody UpdateDescriptionTaskDTO dto) {
+    public ResponseEntity<?> editDescriptionTaskById(@PathVariable Long id,
+                                                     @RequestBody UpdateDescriptionTaskDTO dto) {
 
-        taskService.editDescriptionTask(id, dto);
+        taskService.editDescriptionTaskById(id, dto);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Изменение исполнителя задачи по ID задачи")
+    @Operation(summary = "Изменение исполнителя задачи по ID")
     @SecurityRequirement(name = "JWT")
     @PatchMapping("/edit/{id}/performer")
-    public ResponseEntity<?> editPerformerTask(@PathVariable Long id,
-                                               @RequestBody UpdatePerformerTaskDTO dto) {
+    public ResponseEntity<?> editPerformerTaskById(@PathVariable Long id,
+                                                   @RequestBody UpdatePerformerTaskDTO dto) {
 
-        taskService.editPerformerTask(id, dto);
+        taskService.editPerformerTaskById(id, dto);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Изменение статуса задачи по ID задачи")
+    @Operation(summary = "Изменение статуса задачи по ID")
     @SecurityRequirement(name = "JWT")
     @PatchMapping("/edit/{id}/status/{status}")
-    public ResponseEntity<?> editStatusTask(@PathVariable Long id,
-                                            @PathVariable StatusTask status) {
+    public ResponseEntity<?> editStatusTaskById(@PathVariable Long id,
+                                                @PathVariable StatusTask status) {
 
-        taskService.editStatusTask(id, status);
+        taskService.editStatusTaskById(id, status);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Изменение приоритета задачи по ID задачи")
+    @Operation(summary = "Изменение приоритета задачи по ID")
     @SecurityRequirement(name = "JWT")
     @PatchMapping("/edit/{id}/priority/{priority}")
-    public ResponseEntity<?> editPriorityTask(@PathVariable Long id,
-                                              @PathVariable PriorityTask priority) {
+    public ResponseEntity<?> editPriorityTaskById(@PathVariable Long id,
+                                                  @PathVariable PriorityTask priority) {
 
-        taskService.editPriorityTask(id, priority);
+        taskService.editPriorityTaskById(id, priority);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Удаление задачи по ID")
     @SecurityRequirement(name = "JWT")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<?> deleteTaskById(@PathVariable Long id) {
 
-        taskService.deleteTask(id);
+        taskService.deleteTaskById(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -133,7 +133,7 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto заголовок задачи
      */
-    void editHeaderTask(Long id, @Valid UpdateHeaderTaskDTO dto);
+    void editHeaderTaskById(Long id, @Valid UpdateHeaderTaskDTO dto);
 
     /**
      * Изменение описания задачи по ID
@@ -141,7 +141,7 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto описание задачи
      */
-    void editDescriptionTask(Long id, @Valid UpdateDescriptionTaskDTO dto);
+    void editDescriptionTaskById(Long id, @Valid UpdateDescriptionTaskDTO dto);
 
     /**
      * Изменение исполнителя задачи по ID
@@ -149,7 +149,7 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto email исполнителя задачи
      */
-    void editPerformerTask(Long id, @Valid UpdatePerformerTaskDTO dto);
+    void editPerformerTaskById(Long id, @Valid UpdatePerformerTaskDTO dto);
 
     /**
      * Изменение приоритета задачи по ID
@@ -157,7 +157,7 @@ public interface TaskService {
      * @param id       ID задачи
      * @param priority приоритет задачи
      */
-    void editPriorityTask(Long id, PriorityTask priority);
+    void editPriorityTaskById(Long id, PriorityTask priority);
 
     /**
      * Изменение статуса задачи по ID
@@ -165,12 +165,12 @@ public interface TaskService {
      * @param id     ID задачи
      * @param status статус задачи
      */
-    void editStatusTask(Long id, StatusTask status);
+    void editStatusTaskById(Long id, StatusTask status);
 
     /**
      * Удаление задачи по ID
      *
      * @param id ID задачи
      */
-    void deleteTask(Long id);
+    void deleteTaskById(Long id);
 }

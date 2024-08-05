@@ -24,6 +24,7 @@ import ru.effective_mobile.task_management_system.service.TaskService;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
 import static ru.effective_mobile.task_management_system.mapper.TaskMapper.INSTANCE;
 
 @Service
@@ -50,14 +51,16 @@ public class TaskServiceImpl implements TaskService {
         }
 
         task.setAuthor(author);
-        task.setCreatedAt(LocalDateTime.now());
+        task.setCreatedAt(LocalDateTime.now().truncatedTo(SECONDS));
 
         taskRepository.save(task);
     }
 
     @Override
     public TaskDTO getTaskById(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+        Task task = taskRepository.findById(id)
+                .orElseThrow(TaskNotFoundException::new);
+
         return INSTANCE.taskToTaskDTO(task);
     }
 
@@ -99,7 +102,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByAuthorId(Long id, Integer offset, Integer limit) {
-        User author = userRepository.findById(id).orElseThrow(UserIdNotFoundException::new);
+        User author = userRepository.findById(id)
+                .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
                 .findAllByAuthor(author, PageRequest.of(offset, limit))
@@ -110,7 +114,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByPerformerId(Long id, Integer offset, Integer limit) {
-        User performer = userRepository.findById(id).orElseThrow(UserIdNotFoundException::new);
+        User performer = userRepository.findById(id)
+                .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
                 .findAllByPerformer(performer, PageRequest.of(offset, limit))
@@ -172,7 +177,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editHeaderTask(Long id, UpdateHeaderTaskDTO dto) {
+    public void editHeaderTaskById(Long id, UpdateHeaderTaskDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
@@ -187,7 +192,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editDescriptionTask(Long id, UpdateDescriptionTaskDTO dto) {
+    public void editDescriptionTaskById(Long id, UpdateDescriptionTaskDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
@@ -202,7 +207,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editPerformerTask(Long id, UpdatePerformerTaskDTO dto) {
+    public void editPerformerTaskById(Long id, UpdatePerformerTaskDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
@@ -220,7 +225,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editStatusTask(Long id, StatusTask status) {
+    public void editStatusTaskById(Long id, StatusTask status) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
@@ -237,7 +242,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editPriorityTask(Long id, PriorityTask priority) {
+    public void editPriorityTaskById(Long id, PriorityTask priority) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
@@ -252,7 +257,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Long id) {
+    public void deleteTaskById(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Task task = taskRepository.findById(id)
