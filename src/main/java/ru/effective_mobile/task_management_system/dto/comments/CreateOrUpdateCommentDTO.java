@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Запрос на создание/изменение текста комментария")
 public class CreateOrUpdateCommentDTO {
 
-    @Schema(description = "Текст комментария")
+    @Schema(description = "Текст комментария", example = "Текст комментария")
     @Size(min = 10, max = 100,
             message = "Текст комментария должен быть от 10 до 100 символов")
     @NotBlank(message = "Текст комментария не может быть пустым")

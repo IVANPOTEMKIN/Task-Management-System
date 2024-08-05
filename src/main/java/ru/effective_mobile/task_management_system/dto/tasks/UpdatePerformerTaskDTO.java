@@ -17,7 +17,7 @@ import static ru.effective_mobile.task_management_system.dto.utils.Utils.PATTERN
 @Schema(description = "Запрос на изменение исполнителя задачи")
 public class UpdatePerformerTaskDTO {
 
-    @Schema(description = "Email исполнителя задачи")
+    @Schema(description = "Email исполнителя задачи", example = "user@gmail.com")
     @Pattern(regexp = PATTERN_EMAIL)
     @NotBlank(message = "Email исполнителя задачи не может быть пустым")
     private String email;

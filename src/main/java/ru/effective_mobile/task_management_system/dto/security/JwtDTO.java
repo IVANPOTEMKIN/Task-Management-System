@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Ответ c токеном доступа")
 public class JwtDTO {
 
-    @Schema(description = "Токен доступа")
+    @Schema(description = "Токен доступа", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpdmFuQGdtYWlsLmNvbSIsImlhdCI6MTcyMjg4ODQ1MiwiZXhwIjoxNzIzMDMyNDUyfQ.r2ldS_Ba59gJE50Cbq9Vi25LT3mGLRV_UrGkx92pVKg")
     private String token;
 }

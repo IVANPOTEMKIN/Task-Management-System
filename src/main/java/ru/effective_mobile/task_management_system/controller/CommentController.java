@@ -42,6 +42,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -54,8 +59,8 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PostMapping("/add/task/{id}")
-    public ResponseEntity<?> addComment(@PathVariable Long id,
+    @PostMapping("/add/taskId/{ID}")
+    public ResponseEntity<?> addComment(@PathVariable(name = "ID") Long id,
                                         @RequestBody CreateOrUpdateCommentDTO dto) {
 
         commentService.addComment(id, dto);
@@ -79,6 +84,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -91,8 +101,8 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/{id}")
-    public ResponseEntity<CommentDTO> getCommentById(@PathVariable Long id) {
+    @GetMapping("/get/{ID}")
+    public ResponseEntity<CommentDTO> getCommentById(@PathVariable(name = "ID") Long id) {
         return ResponseEntity.ok(commentService.getCommentById(id));
     }
 
@@ -115,6 +125,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -127,10 +142,10 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/task/{id}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsByTaskId(@PathVariable Long id,
-                                                                   @RequestParam Integer offset,
-                                                                   @RequestParam Integer limit) {
+    @GetMapping("/getAll/taskId/{ID}")
+    public ResponseEntity<List<CommentDTO>> getAllCommentsByTaskId(@PathVariable(name = "ID") Long id,
+                                                                   @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                   @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(commentService.getAllCommentsByTaskId(id, offset, limit));
     }
@@ -154,6 +169,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -166,10 +186,10 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/author/{id}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorId(@PathVariable Long id,
-                                                                     @RequestParam Integer offset,
-                                                                     @RequestParam Integer limit) {
+    @GetMapping("/getAll/authorId/{ID}")
+    public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorId(@PathVariable(name = "ID") Long id,
+                                                                     @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                     @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(commentService.getAllCommentsByAuthorId(id, offset, limit));
     }
@@ -193,6 +213,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -205,11 +230,11 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/task/{taskId}/author/{authorId}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorIdAndTaskId(@PathVariable Long taskId,
-                                                                              @PathVariable Long authorId,
-                                                                              @RequestParam Integer offset,
-                                                                              @RequestParam Integer limit) {
+    @GetMapping("/getAll/taskId/{ID_TASK}/authorId/{ID_AUTHOR}")
+    public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorIdAndTaskId(@PathVariable(name = "ID_TASK") Long taskId,
+                                                                              @PathVariable(name = "ID_AUTHOR") Long authorId,
+                                                                              @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                              @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(commentService.getAllCommentsByTaskIdAuthorId(taskId, authorId, offset, limit));
     }
@@ -225,6 +250,11 @@ public class CommentController {
                     @ApiResponse(
                             responseCode = CODE_400,
                             description = DESCRIPTION_CODE_400,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
                             content = @Content()
                     ),
                     @ApiResponse(
@@ -245,8 +275,8 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}")
-    public ResponseEntity<?> editTextCommentById(@PathVariable Long id,
+    @PatchMapping("/edit/{ID}")
+    public ResponseEntity<?> editTextCommentById(@PathVariable(name = "ID") Long id,
                                                  @RequestBody CreateOrUpdateCommentDTO dto) {
 
         commentService.editTextComment(id, dto);
@@ -267,6 +297,11 @@ public class CommentController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -284,8 +319,8 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCommentById(@PathVariable Long id) {
+    @PatchMapping("/delete/{ID}")
+    public ResponseEntity<?> deleteCommentById(@PathVariable(name = "ID") Long id) {
 
         commentService.deleteComment(id);
         return ResponseEntity.ok().build();

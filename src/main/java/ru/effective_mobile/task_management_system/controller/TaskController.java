@@ -43,6 +43,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -78,6 +83,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -89,8 +99,9 @@ public class TaskController {
                     )
             }
     )
-    @GetMapping("/get/{id}")
-    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/{ID}")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable(name = "ID") Long id) {
         return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
@@ -113,15 +124,21 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_500,
                             description = DESCRIPTION_CODE_500,
                             content = @Content()
                     )
             }
     )
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/get/all")
-    public ResponseEntity<List<TaskDTO>> getAllTasks(@RequestParam(defaultValue = "1") Integer offset,
-                                                     @RequestParam(defaultValue = "20") Integer limit) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(@RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                     @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasks(offset, limit));
     }
@@ -145,16 +162,22 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_500,
                             description = DESCRIPTION_CODE_500,
                             content = @Content()
                     )
             }
     )
-    @GetMapping("/get/all/header/{header}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByHeader(@PathVariable String header,
-                                                             @RequestParam(defaultValue = "1") Integer offset,
-                                                             @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/header/{Заголовок}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByHeader(@PathVariable(name = "Заголовок") String header,
+                                                             @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                             @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByHeader(header, offset, limit));
     }
@@ -178,16 +201,22 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_500,
                             description = DESCRIPTION_CODE_500,
                             content = @Content()
                     )
             }
     )
-    @GetMapping("/get/all/status/{status}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByStatus(@PathVariable StatusTask status,
-                                                             @RequestParam(defaultValue = "1") Integer offset,
-                                                             @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/status/{Статус}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByStatus(@PathVariable(name = "Статус") StatusTask status,
+                                                             @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                             @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByStatus(status, offset, limit));
     }
@@ -211,16 +240,22 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_500,
                             description = DESCRIPTION_CODE_500,
                             content = @Content()
                     )
             }
     )
-    @GetMapping("/get/all/priority/{priority}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPriority(@PathVariable PriorityTask priority,
-                                                               @RequestParam(defaultValue = "1") Integer offset,
-                                                               @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/priority/{Приоритет}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPriority(@PathVariable(name = "Приоритет") PriorityTask priority,
+                                                               @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                               @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByPriority(priority, offset, limit));
     }
@@ -244,6 +279,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -255,10 +295,11 @@ public class TaskController {
                     )
             }
     )
-    @GetMapping("/get/all/author/{id}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorId(@PathVariable Long id,
-                                                               @RequestParam(defaultValue = "1") Integer offset,
-                                                               @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/authorId/{ID}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorId(@PathVariable(name = "ID") Long id,
+                                                               @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                               @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByAuthorId(id, offset, limit));
     }
@@ -282,6 +323,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -293,10 +339,11 @@ public class TaskController {
                     )
             }
     )
-    @GetMapping("/get/all/performer/{id}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerId(@PathVariable Long id,
-                                                                  @RequestParam(defaultValue = "1") Integer offset,
-                                                                  @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/performerId/{ID}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerId(@PathVariable(name = "ID") Long id,
+                                                                  @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                  @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByPerformerId(id, offset, limit));
     }
@@ -320,6 +367,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -331,10 +383,11 @@ public class TaskController {
                     )
             }
     )
-    @GetMapping("/get/all/author/email/{email}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorEmail(@PathVariable String email,
-                                                                  @RequestParam(defaultValue = "1") Integer offset,
-                                                                  @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/author/email/{Email}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorEmail(@PathVariable(name = "Email") String email,
+                                                                  @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                  @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByAuthorEmail(email, offset, limit));
     }
@@ -358,6 +411,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -369,10 +427,11 @@ public class TaskController {
                     )
             }
     )
-    @GetMapping("/get/all/performer/email/{email}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerEmail(@PathVariable String email,
-                                                                     @RequestParam(defaultValue = "1") Integer offset,
-                                                                     @RequestParam(defaultValue = "20") Integer limit) {
+    @SecurityRequirement(name = "JWT")
+    @GetMapping("/get/all/performer/email/{Email}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerEmail(@PathVariable(name = "Email") String email,
+                                                                     @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                     @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByPerformerEmail(email, offset, limit));
     }
@@ -396,6 +455,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -407,11 +471,12 @@ public class TaskController {
                     )
             }
     )
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/get/all/author/fullName")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorFullName(@RequestParam(required = false) String firstName,
-                                                                     @RequestParam(required = false) String lastName,
-                                                                     @RequestParam(defaultValue = "1") Integer offset,
-                                                                     @RequestParam(defaultValue = "20") Integer limit) {
+    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorFullName(@RequestParam(name = "Имя", required = false) String firstName,
+                                                                     @RequestParam(name = "Фамилия", required = false) String lastName,
+                                                                     @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                     @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByAuthorFullName(firstName, lastName, offset, limit));
     }
@@ -435,6 +500,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_404,
                             description = DESCRIPTION_CODE_404,
                             content = @Content()
@@ -446,11 +516,12 @@ public class TaskController {
                     )
             }
     )
+    @SecurityRequirement(name = "JWT")
     @GetMapping("/get/all/performer/fullName")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerFullName(@RequestParam(required = false) String firstName,
-                                                                        @RequestParam(required = false) String lastName,
-                                                                        @RequestParam(defaultValue = "1") Integer offset,
-                                                                        @RequestParam(defaultValue = "20") Integer limit) {
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerFullName(@RequestParam(name = "Имя", required = false) String firstName,
+                                                                        @RequestParam(name = "Фамилия", required = false) String lastName,
+                                                                        @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
+                                                                        @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
         return ResponseEntity.ok(taskService.getAllTasksByPerformerFullName(firstName, lastName, offset, limit));
     }
@@ -466,6 +537,11 @@ public class TaskController {
                     @ApiResponse(
                             responseCode = CODE_400,
                             description = DESCRIPTION_CODE_400,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
                             content = @Content()
                     ),
                     @ApiResponse(
@@ -486,8 +562,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}/header")
-    public ResponseEntity<?> editHeaderTaskById(@PathVariable Long id,
+    @PatchMapping("/edit/{ID}/header")
+    public ResponseEntity<?> editHeaderTaskById(@PathVariable(name = "ID") Long id,
                                                 @RequestBody UpdateHeaderTaskDTO dto) {
 
         taskService.editHeaderTaskById(id, dto);
@@ -508,6 +584,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -525,8 +606,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}/description")
-    public ResponseEntity<?> editDescriptionTaskById(@PathVariable Long id,
+    @PatchMapping("/edit/{ID}/description")
+    public ResponseEntity<?> editDescriptionTaskById(@PathVariable(name = "ID") Long id,
                                                      @RequestBody UpdateDescriptionTaskDTO dto) {
 
         taskService.editDescriptionTaskById(id, dto);
@@ -547,6 +628,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -564,8 +650,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}/performer")
-    public ResponseEntity<?> editPerformerTaskById(@PathVariable Long id,
+    @PatchMapping("/edit/{ID}/performer")
+    public ResponseEntity<?> editPerformerTaskById(@PathVariable(name = "ID") Long id,
                                                    @RequestBody UpdatePerformerTaskDTO dto) {
 
         taskService.editPerformerTaskById(id, dto);
@@ -586,6 +672,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -603,9 +694,9 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}/status/{status}")
-    public ResponseEntity<?> editStatusTaskById(@PathVariable Long id,
-                                                @PathVariable StatusTask status) {
+    @PatchMapping("/edit/{ID}/status/{Статус}")
+    public ResponseEntity<?> editStatusTaskById(@PathVariable(name = "ID") Long id,
+                                                @PathVariable(name = "Статус") StatusTask status) {
 
         taskService.editStatusTaskById(id, status);
         return ResponseEntity.ok().build();
@@ -625,6 +716,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -642,9 +738,9 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{id}/priority/{priority}")
-    public ResponseEntity<?> editPriorityTaskById(@PathVariable Long id,
-                                                  @PathVariable PriorityTask priority) {
+    @PatchMapping("/edit/{ID}/priority/{Приоритет}")
+    public ResponseEntity<?> editPriorityTaskById(@PathVariable(name = "ID") Long id,
+                                                  @PathVariable(name = "Приоритет") PriorityTask priority) {
 
         taskService.editPriorityTaskById(id, priority);
         return ResponseEntity.ok().build();
@@ -664,6 +760,11 @@ public class TaskController {
                             content = @Content()
                     ),
                     @ApiResponse(
+                            responseCode = CODE_401,
+                            description = DESCRIPTION_CODE_401,
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = CODE_403,
                             description = DESCRIPTION_CODE_403,
                             content = @Content()
@@ -681,8 +782,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteTaskById(@PathVariable Long id) {
+    @DeleteMapping("/delete/{ID}")
+    public ResponseEntity<?> deleteTaskById(@PathVariable(name = "ID") Long id) {
 
         taskService.deleteTaskById(id);
         return ResponseEntity.ok().build();

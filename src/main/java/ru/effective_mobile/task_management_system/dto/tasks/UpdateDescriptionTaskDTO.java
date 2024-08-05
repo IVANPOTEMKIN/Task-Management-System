@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Запрос на изменение описания задачи")
 public class UpdateDescriptionTaskDTO {
 
-    @Schema(description = "Описание задачи")
+    @Schema(description = "Описание задачи", example = "Описание задачи")
     @Size(min = 10, max = 100,
             message = "Описание задачи должно быть от 10 до 100 символов")
     @NotBlank(message = "Описание задачи не может быть пустым")

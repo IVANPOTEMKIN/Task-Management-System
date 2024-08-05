@@ -17,30 +17,30 @@ import java.time.LocalDateTime;
 @Schema(description = "Ответ с задачей")
 public class TaskDTO {
 
-    @Schema(description = "Заголовок задачи")
+    @Schema(description = "Заголовок задачи", example = "Заголовок задачи")
     private String header;
 
-    @Schema(description = "Описание задачи")
+    @Schema(description = "Описание задачи", example = "Описание задачи")
     private String description;
 
-    @Schema(description = "Статус задачи")
+    @Schema(description = "Статус задачи", example = "MEDIUM")
     private StatusTask status;
 
-    @Schema(description = "Приоритет задачи")
+    @Schema(description = "Приоритет задачи", example = "IN_PROGRESS")
     private PriorityTask priority;
 
-    @Schema(description = "Имя автора задачи")
+    @Schema(description = "Имя автора задачи", example = "Иван Иванов")
     private String author;
 
-    @Schema(description = "Email автора задачи")
+    @Schema(description = "Email автора задачи", example = "user@gmail.com")
     private String authorEmail;
 
-    @Schema(description = "Имя исполнителя задачи")
+    @Schema(description = "Имя исполнителя задачи", example = "Иван Иванов")
     private String performer;
 
-    @Schema(description = "Email исполнителя задачи")
+    @Schema(description = "Email исполнителя задачи", example = "user@gmail.com")
     private String performerEmail;
 
-    @Schema(description = "Дата и время создания задачи")
+    @Schema(description = "Дата и время создания задачи", example = "2024-08-05T22:19:33")
     private LocalDateTime createdAt;
 }

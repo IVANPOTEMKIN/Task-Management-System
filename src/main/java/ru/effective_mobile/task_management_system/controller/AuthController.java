@@ -2,6 +2,7 @@ package ru.effective_mobile.task_management_system.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 import ru.effective_mobile.task_management_system.service.AuthService;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static ru.effective_mobile.task_management_system.controller.utils.Utils.*;
 
 @RestController
@@ -32,8 +34,10 @@ public class AuthController {
                     @ApiResponse(
                             responseCode = CODE_201,
                             description = DESCRIPTION_CODE_201,
-                            content = @Content()
-                    ),
+                            content = @Content(
+                                    mediaType = APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = JwtDTO.class)
+                            )),
                     @ApiResponse(
                             responseCode = CODE_400,
                             description = DESCRIPTION_CODE_400,
@@ -59,7 +63,10 @@ public class AuthController {
                     @ApiResponse(
                             responseCode = CODE_200,
                             description = DESCRIPTION_CODE_200,
-                            content = @Content()
+                            content = @Content(
+                                    mediaType = APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = JwtDTO.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = CODE_400,

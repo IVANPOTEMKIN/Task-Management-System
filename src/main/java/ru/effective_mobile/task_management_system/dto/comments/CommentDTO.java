@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 @Schema(description = "Ответ с комментарием")
 public class CommentDTO {
 
-    @Schema(description = "Имя автора комментария")
+    @Schema(description = "Имя автора комментария", example = "Иван Иванов")
     private String author;
 
-    @Schema(description = "Текст комментария")
+    @Schema(description = "Текст комментария", example = "Текст комментария")
     private String text;
 
-    @Schema(description = "Дата и время создания комментария")
+    @Schema(description = "Дата и время создания комментария", example = "2024-08-05T22:19:33")
     private LocalDateTime createdAt;
 }

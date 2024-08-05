@@ -17,24 +17,24 @@ import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
 @Schema(description = "Запрос на регистрацию")
 public class RegisterDTO {
 
-    @Schema(description = "Имя пользователя")
+    @Schema(description = "Имя пользователя", example = "Иван")
     @Pattern(regexp = PATTERN_NAME,
             message = FIRST_NAME_MESSAGE)
     @NotBlank(message = "Имя пользователя не может быть пустым")
     private String firstName;
 
-    @Schema(description = "Фамилия пользователя")
+    @Schema(description = "Фамилия пользователя", example = "Иванов")
     @Pattern(regexp = PATTERN_NAME,
             message = LAST_NAME_MESSAGE)
     @NotBlank(message = "Фамилия пользователя не может быть пустым")
     private String lastName;
 
-    @Schema(description = "Email")
+    @Schema(description = "Email", example = "user@gmail.com")
     @Pattern(regexp = PATTERN_EMAIL)
     @NotBlank(message = "Email не может быть пустым")
     private String email;
 
-    @Schema(description = "Пароль")
+    @Schema(description = "Пароль", example = "QwErTy.1234")
     @Pattern(regexp = PATTERN_PASSWORD,
             message = PASSWORD_MESSAGE)
     @NotBlank(message = "Пароль не может быть пустым")

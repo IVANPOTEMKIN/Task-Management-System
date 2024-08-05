@@ -11,6 +11,9 @@ public class Utils {
     public static final String CODE_400 = "400";
     public static final String DESCRIPTION_CODE_400 = "Bad Request";
 
+    public static final String CODE_401 = "401";
+    public static final String DESCRIPTION_CODE_401 = "Unauthorized";
+
     public static final String CODE_403 = "403";
     public static final String DESCRIPTION_CODE_403 = "Forbidden";
 

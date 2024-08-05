@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Запрос на изменение заголовка задачи")
 public class UpdateHeaderTaskDTO {
 
-    @Schema(description = "Заголовок задачи")
+    @Schema(description = "Заголовок задачи", example = "Заголовок задачи")
     @Size(min = 10, max = 30,
             message = "Заголовок задачи должен быть от 10 до 30 символов")
     @NotBlank(message = "Заголовок задачи не может быть пустым")

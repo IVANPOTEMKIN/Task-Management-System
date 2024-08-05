@@ -17,21 +17,21 @@ import ru.effective_mobile.task_management_system.enums.StatusTask;
 @Schema(description = "Запрос на создание задачи")
 public class CreateTaskDTO {
 
-    @Schema(description = "Заголовок задачи")
+    @Schema(description = "Заголовок задачи", example = "Заголовок задачи")
     @Size(min = 10, max = 30,
             message = "Заголовок задачи должен быть от 10 до 30 символов")
     @NotBlank(message = "Заголовок задачи не может быть пустым")
     private String header;
 
-    @Schema(description = "Описание задачи")
+    @Schema(description = "Описание задачи", example = "Описание задачи")
     @Size(min = 10, max = 100,
             message = "Описание задачи должно быть от 10 до 100 символов")
     @NotBlank(message = "Описание задачи не может быть пустым")
     private String description;
 
-    @Schema(description = "Статус задачи")
+    @Schema(description = "Статус задачи", example = "IS_PENDING/IN_PROGRESS/COMPLETED")
     private StatusTask status;
 
-    @Schema(description = "Приоритет задачи")
+    @Schema(description = "Приоритет задачи", example = "LOW/MEDIUM/HIGH")
     private PriorityTask priority;
 }
