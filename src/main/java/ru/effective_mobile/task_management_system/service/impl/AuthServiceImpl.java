@@ -10,13 +10,14 @@ import ru.effective_mobile.task_management_system.dto.security.JwtDTO;
 import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
 import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 import ru.effective_mobile.task_management_system.exception.EmailAlreadyUse;
-import ru.effective_mobile.task_management_system.exception.UserNotFoundException;
+import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFoundException;
 import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.model.UserDetailsImpl;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
 import ru.effective_mobile.task_management_system.service.AuthService;
 import ru.effective_mobile.task_management_system.service.JwtService;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static ru.effective_mobile.task_management_system.enums.Role.USER;
 
 @Service
@@ -30,19 +31,19 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public JwtDTO register(RegisterDTO registerDTO) {
+    public JwtDTO register(RegisterDTO dto) {
 
-        if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(dto.getEmail().toLowerCase()).isPresent()) {
             throw new EmailAlreadyUse();
         }
 
         var userDetails = UserDetailsImpl
                 .builder()
                 .user(User.builder()
-                        .firstName(registerDTO.getFirstName())
-                        .lastName(registerDTO.getLastName())
-                        .email(registerDTO.getEmail())
-                        .password(passwordEncoder.encode(registerDTO.getPassword()))
+                        .firstName(capitalize(dto.getFirstName().toLowerCase()))
+                        .lastName(capitalize(dto.getLastName().toLowerCase()))
+                        .email(dto.getEmail().toLowerCase())
+                        .password(passwordEncoder.encode(dto.getPassword()))
                         .role(USER)
                         .build())
                 .build();
@@ -53,13 +54,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtDTO login(LoginDTO loginDTO) {
-        var user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+    public JwtDTO login(LoginDTO dto) {
+        var user = userRepository.findByEmail(dto.getEmail().toLowerCase())
+                .orElseThrow(UserEmailNotFoundException::new);
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getEmail(),
-                loginDTO.getPassword()
+                dto.getEmail().toLowerCase(),
+                dto.getPassword()
         ));
 
         return new JwtDTO(

@@ -9,5 +9,5 @@ public class Utils {
             "java(task.getAuthor().getFirstName() + \" \" + task.getAuthor().getLastName())";
 
     public static final String EXPRESSION_FOR_CONCAT_FULL_NAME_OF_PERFORMER_TASK =
-            "java(task.getPerformer().getFirstName() + \" \" + task.getPerformer().getLastName())";
+            "java(task.getPerformer() != null ? task.getPerformer().getFirstName() + \" \" + task.getPerformer().getLastName() : null)";
 }

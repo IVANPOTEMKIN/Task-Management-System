@@ -5,8 +5,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.effective_mobile.task_management_system.dto.tasks.CreateTaskDTO;
 import ru.effective_mobile.task_management_system.dto.tasks.TaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdateDataTaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdateStatusTaskDTO;
 import ru.effective_mobile.task_management_system.model.Task;
 
 import static ru.effective_mobile.task_management_system.mapper.utils.Utils.EXPRESSION_FOR_CONCAT_FULL_NAME_OF_AUTHOR_TASK;
@@ -24,9 +22,4 @@ public interface TaskMapper {
     TaskDTO taskToTaskDTO(Task task);
 
     Task createTaskDTOToTask(CreateTaskDTO createTaskDTO);
-
-    @Mapping(source = "updateDataTaskDTO.performer", target = "performer.email")
-    Task updateDataTaskDTOToTask(UpdateDataTaskDTO updateDataTaskDTO);
-
-    Task updateStatusTaskDTOToTask(UpdateStatusTaskDTO updateStatusTaskDTO);
 }

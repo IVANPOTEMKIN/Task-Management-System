@@ -10,16 +10,16 @@ public interface AuthService {
     /**
      * Регистрация пользователя
      *
-     * @param registerDTO данные пользователя
+     * @param dto данные пользователя
      * @return токен
      */
-    JwtDTO register(@Valid RegisterDTO registerDTO);
+    JwtDTO register(@Valid RegisterDTO dto);
 
     /**
      * Аутентификация пользователя
      *
-     * @param loginDTO данные пользователя
+     * @param dto данные пользователя
      * @return токен
      */
-    JwtDTO login(@Valid LoginDTO loginDTO);
+    JwtDTO login(@Valid LoginDTO dto);
 }

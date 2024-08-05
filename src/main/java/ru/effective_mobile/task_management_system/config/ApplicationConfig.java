@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.effective_mobile.task_management_system.exception.UserNotFoundException;
+import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFoundException;
 import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.model.UserDetailsImpl;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
@@ -26,7 +26,7 @@ public class ApplicationConfig {
         return username -> {
 
             User user = userRepository.findByEmail(username)
-                    .orElseThrow(UserNotFoundException::new);
+                    .orElseThrow(UserEmailNotFoundException::new);
 
             return UserDetailsImpl
                     .builder()
