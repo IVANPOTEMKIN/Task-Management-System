@@ -2,7 +2,6 @@ package ru.effective_mobile.task_management_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +15,6 @@ import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFou
 import ru.effective_mobile.task_management_system.exception.user.UserFullNameNotFoundException;
 import ru.effective_mobile.task_management_system.exception.user.UserIdNotFoundException;
 import ru.effective_mobile.task_management_system.model.Task;
-import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.repository.TaskRepository;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
 import ru.effective_mobile.task_management_system.service.TaskService;
@@ -36,12 +34,12 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public void addTask(CreateTaskDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean addTask(CreateTaskDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = INSTANCE.createTaskDTOToTask(dto);
+        var task = INSTANCE.createTaskDTOToTask(dto);
 
-        User author = userRepository.findByEmail(authentication.getName())
+        var author = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(UserEmailNotFoundException::new);
 
         for (Task element : taskRepository.findAll()) {
@@ -54,11 +52,12 @@ public class TaskServiceImpl implements TaskService {
         task.setCreatedAt(LocalDateTime.now().truncatedTo(SECONDS));
 
         taskRepository.save(task);
+        return true;
     }
 
     @Override
     public TaskDTO getTaskById(Long id) {
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         return INSTANCE.taskToTaskDTO(task);
@@ -102,7 +101,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByAuthorId(Long id, Integer offset, Integer limit) {
-        User author = userRepository.findById(id)
+        var author = userRepository.findById(id)
                 .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
@@ -114,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByPerformerId(Long id, Integer offset, Integer limit) {
-        User performer = userRepository.findById(id)
+        var performer = userRepository.findById(id)
                 .orElseThrow(UserIdNotFoundException::new);
 
         return taskRepository
@@ -126,7 +125,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByAuthorEmail(String email, Integer offset, Integer limit) {
-        User author = userRepository.findByEmailContainingIgnoreCase(email)
+        var author = userRepository.findByEmailContainingIgnoreCase(email)
                 .orElseThrow(UserEmailNotFoundException::new);
 
         return taskRepository
@@ -138,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksByPerformerEmail(String email, Integer offset, Integer limit) {
-        User performer = userRepository.findByEmailContainingIgnoreCase(email)
+        var performer = userRepository.findByEmailContainingIgnoreCase(email)
                 .orElseThrow(UserEmailNotFoundException::new);
 
         return taskRepository
@@ -152,7 +151,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> getAllTasksByAuthorFullName(String firstName, String lastName,
                                                      Integer offset, Integer limit) {
 
-        User author = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
+        var author = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
@@ -166,7 +165,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> getAllTasksByPerformerFullName(String firstName, String lastName,
                                                         Integer offset, Integer limit) {
 
-        User performer = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
+        var performer = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
@@ -177,10 +176,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editHeaderTaskById(Long id, UpdateHeaderTaskDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editHeaderTaskById(Long id, UpdateHeaderTaskDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())) {
@@ -189,13 +188,14 @@ public class TaskServiceImpl implements TaskService {
 
         task.setHeader(dto.getHeader());
         taskRepository.save(task);
+        return true;
     }
 
     @Override
-    public void editDescriptionTaskById(Long id, UpdateDescriptionTaskDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editDescriptionTaskById(Long id, UpdateDescriptionTaskDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())) {
@@ -204,31 +204,33 @@ public class TaskServiceImpl implements TaskService {
 
         task.setDescription(dto.getDescription());
         taskRepository.save(task);
+        return true;
     }
 
     @Override
-    public void editPerformerTaskById(Long id, UpdatePerformerTaskDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editPerformerTaskById(Long id, UpdatePerformerTaskDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())) {
             throw new ForbiddenException();
         }
 
-        User performer = userRepository.findByEmail(dto.getEmail())
+        var performer = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(UserEmailNotFoundException::new);
 
         task.setPerformer(performer);
         taskRepository.save(task);
+        return true;
     }
 
     @Override
-    public void editStatusTaskById(Long id, StatusTask status) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editStatusTaskById(Long id, StatusTask status) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())
@@ -239,13 +241,14 @@ public class TaskServiceImpl implements TaskService {
 
         task.setStatus(status);
         taskRepository.save(task);
+        return true;
     }
 
     @Override
-    public void editPriorityTaskById(Long id, PriorityTask priority) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editPriorityTaskById(Long id, PriorityTask priority) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())) {
@@ -254,13 +257,14 @@ public class TaskServiceImpl implements TaskService {
 
         task.setPriority(priority);
         taskRepository.save(task);
+        return true;
     }
 
     @Override
-    public void deleteTaskById(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean deleteTaskById(Long id) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         if (!authentication.getName().equals(task.getAuthor().getEmail())) {
@@ -268,5 +272,6 @@ public class TaskServiceImpl implements TaskService {
         }
 
         taskRepository.delete(task);
+        return true;
     }
 }

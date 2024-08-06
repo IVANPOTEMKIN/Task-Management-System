@@ -17,7 +17,7 @@ public interface TaskService {
      *
      * @param dto данные задачи
      */
-    void addTask(@Valid CreateTaskDTO dto);
+    boolean addTask(@Valid CreateTaskDTO dto);
 
     /**
      * Получение задачи по ID
@@ -155,8 +155,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto заголовок задачи
      */
-    void editHeaderTaskById(@Positive(message = ID_MESSAGE) Long id,
-                            @Valid UpdateHeaderTaskDTO dto);
+    boolean editHeaderTaskById(@Positive(message = ID_MESSAGE) Long id,
+                               @Valid UpdateHeaderTaskDTO dto);
 
     /**
      * Изменение описания задачи по ID
@@ -164,8 +164,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto описание задачи
      */
-    void editDescriptionTaskById(@Positive(message = ID_MESSAGE) Long id,
-                                 @Valid UpdateDescriptionTaskDTO dto);
+    boolean editDescriptionTaskById(@Positive(message = ID_MESSAGE) Long id,
+                                    @Valid UpdateDescriptionTaskDTO dto);
 
     /**
      * Изменение исполнителя задачи по ID
@@ -173,8 +173,8 @@ public interface TaskService {
      * @param id  ID задачи
      * @param dto email исполнителя задачи
      */
-    void editPerformerTaskById(@Positive(message = ID_MESSAGE) Long id,
-                               @Valid UpdatePerformerTaskDTO dto);
+    boolean editPerformerTaskById(@Positive(message = ID_MESSAGE) Long id,
+                                  @Valid UpdatePerformerTaskDTO dto);
 
     /**
      * Изменение приоритета задачи по ID
@@ -182,8 +182,8 @@ public interface TaskService {
      * @param id       ID задачи
      * @param priority приоритет задачи
      */
-    void editPriorityTaskById(@Positive(message = ID_MESSAGE) Long id,
-                              PriorityTask priority);
+    boolean editPriorityTaskById(@Positive(message = ID_MESSAGE) Long id,
+                                 PriorityTask priority);
 
     /**
      * Изменение статуса задачи по ID
@@ -191,13 +191,13 @@ public interface TaskService {
      * @param id     ID задачи
      * @param status статус задачи
      */
-    void editStatusTaskById(@Positive(message = ID_MESSAGE) Long id,
-                            StatusTask status);
+    boolean editStatusTaskById(@Positive(message = ID_MESSAGE) Long id,
+                               StatusTask status);
 
     /**
      * Удаление задачи по ID
      *
      * @param id ID задачи
      */
-    void deleteTaskById(@Positive(message = ID_MESSAGE) Long id);
+    boolean deleteTaskById(@Positive(message = ID_MESSAGE) Long id);
 }

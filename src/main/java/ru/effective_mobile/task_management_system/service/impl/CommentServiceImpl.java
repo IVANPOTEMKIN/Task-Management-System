@@ -2,7 +2,6 @@ package ru.effective_mobile.task_management_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -13,9 +12,6 @@ import ru.effective_mobile.task_management_system.exception.ForbiddenException;
 import ru.effective_mobile.task_management_system.exception.task.TaskNotFoundException;
 import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFoundException;
 import ru.effective_mobile.task_management_system.exception.user.UserIdNotFoundException;
-import ru.effective_mobile.task_management_system.model.Comment;
-import ru.effective_mobile.task_management_system.model.Task;
-import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.repository.CommentRepository;
 import ru.effective_mobile.task_management_system.repository.TaskRepository;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
@@ -37,26 +33,27 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
     @Override
-    public void addComment(Long id, CreateOrUpdateCommentDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean addComment(Long id, CreateOrUpdateCommentDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User author = userRepository.findByEmail(authentication.getName())
+        var author = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(UserEmailNotFoundException::new);
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
-        Comment comment = INSTANCE.createOrUpdateCommentDTOToComment(dto);
+        var comment = INSTANCE.createOrUpdateCommentDTOToComment(dto);
 
         comment.setAuthor(author);
         comment.setTask(task);
         comment.setCreatedAt(LocalDateTime.now().truncatedTo(SECONDS));
 
         commentRepository.save(comment);
+        return true;
     }
 
     @Override
     public CommentDTO getCommentById(Long id) {
-        Comment comment = commentRepository.findById(id)
+        var comment = commentRepository.findById(id)
                 .orElseThrow(CommentNotFoundException::new);
 
         return INSTANCE.commentToCommentDTO(comment);
@@ -64,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> getAllCommentsByTaskId(Long id, Integer offset, Integer limit) {
-        Task task = taskRepository.findById(id)
+        var task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         return commentRepository.findAllByTask(task, PageRequest.of(offset - 1, limit))
@@ -75,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> getAllCommentsByAuthorId(Long id, Integer offset, Integer limit) {
-        User author = userRepository.findById(id)
+        var author = userRepository.findById(id)
                 .orElseThrow(UserIdNotFoundException::new);
 
         return commentRepository.findAllByAuthor(author, PageRequest.of(offset - 1, limit))
@@ -88,10 +85,10 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDTO> getAllCommentsByTaskIdAuthorId(Long taskId, Long authorId,
                                                            Integer offset, Integer limit) {
 
-        Task task = taskRepository.findById(taskId)
+        var task = taskRepository.findById(taskId)
                 .orElseThrow(TaskNotFoundException::new);
 
-        User author = userRepository.findById(authorId)
+        var author = userRepository.findById(authorId)
                 .orElseThrow(UserIdNotFoundException::new);
 
         return commentRepository.findAllByTaskAndAuthor(task, author, PageRequest.of(offset - 1, limit))
@@ -101,10 +98,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void editTextComment(Long id, CreateOrUpdateCommentDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean editTextComment(Long id, CreateOrUpdateCommentDTO dto) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Comment comment = commentRepository.findById(id)
+        var comment = commentRepository.findById(id)
                 .orElseThrow(CommentNotFoundException::new);
 
         if (!authentication.getName().equals(comment.getAuthor().getEmail())) {
@@ -113,13 +110,14 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setText(dto.getText());
         commentRepository.save(comment);
+        return true;
     }
 
     @Override
-    public void deleteComment(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public boolean deleteComment(Long id) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Comment comment = commentRepository.findById(id)
+        var comment = commentRepository.findById(id)
                 .orElseThrow(CommentNotFoundException::new);
 
         if (!authentication.getName().equals(comment.getAuthor().getEmail())
@@ -129,5 +127,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         commentRepository.delete(comment);
+        return true;
     }
 }

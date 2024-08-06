@@ -7,6 +7,7 @@ import ru.effective_mobile.task_management_system.enums.StatusTask;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
@@ -58,4 +59,49 @@ public class Task {
             cascade = ALL,
             orphanRemoval = true)
     private List<Comment> comments;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id)
+                && Objects.equals(header, task.header)
+                && Objects.equals(description, task.description)
+                && status == task.status
+                && priority == task.priority
+                && Objects.equals(author, task.author)
+                && Objects.equals(performer, task.performer)
+                && Objects.equals(createdAt, task.createdAt)
+                && Objects.equals(comments, task.comments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                header,
+                description,
+                status,
+                priority,
+                author,
+                performer,
+                createdAt,
+                comments);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", header='" + header + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", author=" + author +
+                ", performer=" + performer +
+                ", createdAt=" + createdAt +
+                ", comments=" + comments +
+                '}';
+    }
 }

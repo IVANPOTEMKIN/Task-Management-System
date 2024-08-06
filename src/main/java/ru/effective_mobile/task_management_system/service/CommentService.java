@@ -16,8 +16,8 @@ public interface CommentService {
      *
      * @param dto текст комментария
      */
-    void addComment(@Positive(message = ID_MESSAGE) Long id,
-                    @Valid CreateOrUpdateCommentDTO dto);
+    boolean addComment(@Positive(message = ID_MESSAGE) Long id,
+                       @Valid CreateOrUpdateCommentDTO dto);
 
     /**
      * Получение комментария по ID
@@ -71,13 +71,13 @@ public interface CommentService {
      * @param id  ID задачи
      * @param dto текст комментария
      */
-    void editTextComment(@Positive(message = ID_MESSAGE) Long id,
-                         @Valid CreateOrUpdateCommentDTO dto);
+    boolean editTextComment(@Positive(message = ID_MESSAGE) Long id,
+                            @Valid CreateOrUpdateCommentDTO dto);
 
     /**
      * Удаление комментария по ID
      *
      * @param id ID комментария
      */
-    void deleteComment(@Positive(message = ID_MESSAGE) Long id);
+    boolean deleteComment(@Positive(message = ID_MESSAGE) Long id);
 }
