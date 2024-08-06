@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 
 -- changeset ivan:1
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR(255) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE users
     role       VARCHAR(255) NOT NULL CHECK (role IN ('USER', 'ADMIN'))
 );
 
-CREATE TABLE tasks
+CREATE TABLE IF NOT EXISTS tasks
 (
     id           BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     header       VARCHAR(255)            NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE tasks
     created_at   TIMESTAMP               NOT NULL
 );
 
-CREATE TABLE comments
+CREATE TABLE IF NOT EXISTS comments
 (
     id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     text       VARCHAR(255)            NOT NULL,

@@ -8,16 +8,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на изменение заголовка задачи")
+@Schema(description = UPDATE_HEADER_TASK_DTO)
 public class UpdateHeaderTaskDTO {
 
-    @Schema(description = "Заголовок задачи", example = "Заголовок задачи")
+    @Schema(description = HEADER, example = HEADER)
     @Size(min = 10, max = 30,
-            message = "Заголовок задачи должен быть от 10 до 30 символов")
-    @NotBlank(message = "Заголовок задачи не может быть пустым")
+            message = HEADER_MESSAGE)
+    @NotBlank(message = HEADER_MESSAGE_NOT_BLANK)
     private String header;
 }

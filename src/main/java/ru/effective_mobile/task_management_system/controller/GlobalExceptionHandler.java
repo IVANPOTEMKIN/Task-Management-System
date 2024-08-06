@@ -12,6 +12,9 @@ import ru.effective_mobile.task_management_system.exception.task.TaskNotFoundExc
 import ru.effective_mobile.task_management_system.exception.user.UserEmailNotFoundException;
 import ru.effective_mobile.task_management_system.exception.user.UserFullNameNotFoundException;
 import ru.effective_mobile.task_management_system.exception.user.UserIdNotFoundException;
+import ru.effective_mobile.task_management_system.model.Violation;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -20,24 +23,41 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {
             EmailAlreadyUseException.class,
-            TaskAlreadyAddedException.class,
-            ConstraintViolationException.class})
-    public ResponseEntity<String> badRequest(Throwable e) {
-        return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
-    }
-
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<String> forbidden(Throwable e) {
-        return ResponseEntity.status(FORBIDDEN).body(e.getMessage());
+            TaskAlreadyAddedException.class})
+    public ResponseEntity<Violation> handleBadRequestException(Throwable e) {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(new Violation(e.getMessage()));
     }
 
     @ExceptionHandler(value = {
-            TaskNotFoundException.class,
+            ConstraintViolationException.class})
+    public ResponseEntity<List<Violation>> handleValidationException(ConstraintViolationException e) {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(e.getConstraintViolations()
+                        .stream()
+                        .map(violation -> new Violation(violation.getMessage()))
+                        .toList());
+    }
+
+    @ExceptionHandler(value = {
+            ForbiddenException.class})
+    public ResponseEntity<Violation> handleForbiddenException(Throwable e) {
+        return ResponseEntity
+                .status(FORBIDDEN)
+                .body(new Violation(e.getMessage()));
+    }
+
+    @ExceptionHandler(value = {
             UserEmailNotFoundException.class,
-            UserFullNameNotFoundException.class,
             UserIdNotFoundException.class,
+            UserFullNameNotFoundException.class,
+            TaskNotFoundException.class,
             CommentNotFoundException.class})
-    public ResponseEntity<String> handle_NotFound_Exception(Throwable e) {
-        return ResponseEntity.status(NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<Violation> handleNotFoundException(Throwable e) {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(new Violation(e.getMessage()));
     }
 }

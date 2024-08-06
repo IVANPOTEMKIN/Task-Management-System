@@ -8,19 +8,21 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Ответ с комментарием")
+@Schema(description = COMMENT_DTO)
 public class CommentDTO {
 
-    @Schema(description = "Имя автора комментария", example = "Иван Иванов")
+    @Schema(description = AUTHOR, example = EXAMPLE_FULL_NAME)
     private String author;
 
-    @Schema(description = "Текст комментария", example = "Текст комментария")
+    @Schema(description = TEXT, example = TEXT)
     private String text;
 
-    @Schema(description = "Дата и время создания комментария", example = "2024-08-05T22:19:33")
+    @Schema(description = DATE_AND_TIME, example = EXAMPLE_DATE_AND_TIME)
     private LocalDateTime createdAt;
 }

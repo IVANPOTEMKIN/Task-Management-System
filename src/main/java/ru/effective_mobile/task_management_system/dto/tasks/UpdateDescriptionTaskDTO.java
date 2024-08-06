@@ -8,16 +8,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на изменение описания задачи")
+@Schema(description = UPDATE_DESCRIPTION_TASK_DTO)
 public class UpdateDescriptionTaskDTO {
 
-    @Schema(description = "Описание задачи", example = "Описание задачи")
+    @Schema(description = DESCRIPTION, example = DESCRIPTION)
     @Size(min = 10, max = 100,
-            message = "Описание задачи должно быть от 10 до 100 символов")
-    @NotBlank(message = "Описание задачи не может быть пустым")
+            message = DESCRIPTION_MESSAGE)
+    @NotBlank(message = DESCRIPTION_MESSAGE_NOT_BLANK)
     private String description;
 }

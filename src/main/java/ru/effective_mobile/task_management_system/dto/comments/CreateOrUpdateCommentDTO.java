@@ -8,16 +8,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на создание/изменение текста комментария")
+@Schema(description = CREATE_OR_UPDATE_COMMENT_DTO)
 public class CreateOrUpdateCommentDTO {
 
-    @Schema(description = "Текст комментария", example = "Текст комментария")
+    @Schema(description = TEXT, example = TEXT)
     @Size(min = 10, max = 100,
-            message = "Текст комментария должен быть от 10 до 100 символов")
-    @NotBlank(message = "Текст комментария не может быть пустым")
+            message = TEXT_MESSAGE)
+    @NotBlank(message = TEXT_MESSAGE_NOT_BLANK)
     private String text;
 }

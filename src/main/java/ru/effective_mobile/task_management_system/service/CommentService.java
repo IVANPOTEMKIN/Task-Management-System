@@ -7,6 +7,8 @@ import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCom
 
 import java.util.List;
 
+import static ru.effective_mobile.task_management_system.service.utils.Utils.*;
+
 public interface CommentService {
 
     /**
@@ -14,7 +16,7 @@ public interface CommentService {
      *
      * @param dto текст комментария
      */
-    void addComment(@Positive Long id,
+    void addComment(@Positive(message = ID_MESSAGE) Long id,
                     @Valid CreateOrUpdateCommentDTO dto);
 
     /**
@@ -23,7 +25,7 @@ public interface CommentService {
      * @param id ID комментария
      * @return комментарий
      */
-    CommentDTO getCommentById(@Positive Long id);
+    CommentDTO getCommentById(@Positive(message = ID_MESSAGE) Long id);
 
     /**
      * Получение списка всех комментариев по ID задачи
@@ -33,9 +35,9 @@ public interface CommentService {
      * @param limit  кол-во комментариев на странице
      * @return список комментариев
      */
-    List<CommentDTO> getAllCommentsByTaskId(@Positive Long id,
-                                            @Positive Integer offset,
-                                            @Positive Integer limit);
+    List<CommentDTO> getAllCommentsByTaskId(@Positive(message = ID_MESSAGE) Long id,
+                                            @Positive(message = OFFSET_MESSAGE) Integer offset,
+                                            @Positive(message = LIMIT_MESSAGE) Integer limit);
 
     /**
      * Получение списка всех комментариев по ID автора
@@ -45,9 +47,9 @@ public interface CommentService {
      * @param limit  кол-во комментариев на странице
      * @return список комментариев
      */
-    List<CommentDTO> getAllCommentsByAuthorId(@Positive Long id,
-                                              @Positive Integer offset,
-                                              @Positive Integer limit);
+    List<CommentDTO> getAllCommentsByAuthorId(@Positive(message = ID_MESSAGE) Long id,
+                                              @Positive(message = OFFSET_MESSAGE) Integer offset,
+                                              @Positive(message = LIMIT_MESSAGE) Integer limit);
 
     /**
      * Получение списка всех комментариев по ID задачи и ID автора
@@ -58,10 +60,10 @@ public interface CommentService {
      * @param limit    кол-во комментариев на странице
      * @return список комментариев
      */
-    List<CommentDTO> getAllCommentsByTaskIdAuthorId(@Positive Long taskId,
-                                                    @Positive Long authorId,
-                                                    @Positive Integer offset,
-                                                    @Positive Integer limit);
+    List<CommentDTO> getAllCommentsByTaskIdAuthorId(@Positive(message = ID_MESSAGE) Long taskId,
+                                                    @Positive(message = ID_MESSAGE) Long authorId,
+                                                    @Positive(message = OFFSET_MESSAGE) Integer offset,
+                                                    @Positive(message = LIMIT_MESSAGE) Integer limit);
 
     /**
      * Изменение текста комментария по ID
@@ -69,7 +71,7 @@ public interface CommentService {
      * @param id  ID задачи
      * @param dto текст комментария
      */
-    void editTextComment(@Positive Long id,
+    void editTextComment(@Positive(message = ID_MESSAGE) Long id,
                          @Valid CreateOrUpdateCommentDTO dto);
 
     /**
@@ -77,5 +79,5 @@ public interface CommentService {
      *
      * @param id ID комментария
      */
-    void deleteComment(@Positive Long id);
+    void deleteComment(@Positive(message = ID_MESSAGE) Long id);
 }

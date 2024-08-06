@@ -1,4 +1,4 @@
-package ru.effective_mobile.task_management_system.config;
+package ru.effective_mobile.task_management_system.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

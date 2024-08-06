@@ -319,7 +319,7 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/delete/{ID}")
+    @DeleteMapping("/delete/{ID}")
     public ResponseEntity<?> deleteCommentById(@PathVariable(name = "ID") Long id) {
 
         commentService.deleteComment(id);

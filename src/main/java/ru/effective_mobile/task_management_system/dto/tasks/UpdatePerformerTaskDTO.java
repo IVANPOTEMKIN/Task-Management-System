@@ -8,17 +8,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static ru.effective_mobile.task_management_system.dto.utils.Utils.PATTERN_EMAIL;
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Запрос на изменение исполнителя задачи")
+@Schema(description = UPDATE_PERFORMER_TASK_DTO)
 public class UpdatePerformerTaskDTO {
 
-    @Schema(description = "Email исполнителя задачи", example = "user@gmail.com")
-    @Pattern(regexp = PATTERN_EMAIL)
-    @NotBlank(message = "Email исполнителя задачи не может быть пустым")
+    @Schema(description = EMAIL, example = EXAMPLE_EMAIL)
+    @Pattern.List({
+            @Pattern(regexp = PATTERN_EMAIL,
+                    message = EMAIL_MESSAGE_1),
+            @Pattern(regexp = PATTERN_EMAIL,
+                    message = EMAIL_MESSAGE_2),
+            @Pattern(regexp = PATTERN_EMAIL,
+                    message = EMAIL_MESSAGE_3)})
+    @NotBlank(message = EMAIL_MESSAGE_NOT_BLANK)
     private String email;
 }

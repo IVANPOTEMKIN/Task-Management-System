@@ -142,7 +142,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(UserEmailNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(performer, PageRequest.of(offset - 1, limit))
+                .findAllByPerformer(performer, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();
@@ -152,7 +152,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> getAllTasksByAuthorFullName(String firstName, String lastName,
                                                      Integer offset, Integer limit) {
 
-        User author = userRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName)
+        User author = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
@@ -166,11 +166,11 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> getAllTasksByPerformerFullName(String firstName, String lastName,
                                                         Integer offset, Integer limit) {
 
-        User performer = userRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName)
+        User performer = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName)
                 .orElseThrow(UserFullNameNotFoundException::new);
 
         return taskRepository
-                .findAllByAuthor(performer, PageRequest.of(offset - 1, limit))
+                .findAllByPerformer(performer, PageRequest.of(offset - 1, limit))
                 .stream()
                 .map(INSTANCE::taskToTaskDTO)
                 .toList();

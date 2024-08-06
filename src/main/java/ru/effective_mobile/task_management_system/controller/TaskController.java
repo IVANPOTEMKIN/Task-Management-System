@@ -174,8 +174,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/header/{Заголовок}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByHeader(@PathVariable(name = "Заголовок") String header,
+    @GetMapping("/get/all/header")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByHeader(@RequestParam(name = "Заголовок") String header,
                                                              @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                              @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
@@ -213,8 +213,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/status/{Статус}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByStatus(@PathVariable(name = "Статус") StatusTask status,
+    @GetMapping("/get/all/status")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByStatus(@RequestParam(name = "Статус") StatusTask status,
                                                              @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                              @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
@@ -252,8 +252,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/priority/{Приоритет}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPriority(@PathVariable(name = "Приоритет") PriorityTask priority,
+    @GetMapping("/get/all/priority")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPriority(@RequestParam(name = "Приоритет") PriorityTask priority,
                                                                @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
@@ -296,7 +296,7 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/authorId/{ID}")
+    @GetMapping("/get/all/author/{ID}")
     public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorId(@PathVariable(name = "ID") Long id,
                                                                @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
@@ -340,7 +340,7 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/performerId/{ID}")
+    @GetMapping("/get/all/performer/{ID}")
     public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerId(@PathVariable(name = "ID") Long id,
                                                                   @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                   @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
@@ -384,8 +384,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/author/email/{Email}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorEmail(@PathVariable(name = "Email") String email,
+    @GetMapping("/get/all/author/email")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByAuthorEmail(@RequestParam(name = "Email") String email,
                                                                   @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                   @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
@@ -428,8 +428,8 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/get/all/performer/email/{Email}")
-    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerEmail(@PathVariable(name = "Email") String email,
+    @GetMapping("/get/all/performer/email")
+    public ResponseEntity<List<TaskDTO>> getAllTasksByPerformerEmail(@RequestParam(name = "Email") String email,
                                                                      @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                      @RequestParam(name = "Кол-во задач", defaultValue = "20") Integer limit) {
 
@@ -694,9 +694,9 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{ID}/status/{Статус}")
+    @PatchMapping("/edit/{ID}/status")
     public ResponseEntity<?> editStatusTaskById(@PathVariable(name = "ID") Long id,
-                                                @PathVariable(name = "Статус") StatusTask status) {
+                                                @RequestParam(name = "Статус") StatusTask status) {
 
         taskService.editStatusTaskById(id, status);
         return ResponseEntity.ok().build();
@@ -738,9 +738,9 @@ public class TaskController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @PatchMapping("/edit/{ID}/priority/{Приоритет}")
+    @PatchMapping("/edit/{ID}/priority")
     public ResponseEntity<?> editPriorityTaskById(@PathVariable(name = "ID") Long id,
-                                                  @PathVariable(name = "Приоритет") PriorityTask priority) {
+                                                  @RequestParam(name = "Приоритет") PriorityTask priority) {
 
         taskService.editPriorityTaskById(id, priority);
         return ResponseEntity.ok().build();

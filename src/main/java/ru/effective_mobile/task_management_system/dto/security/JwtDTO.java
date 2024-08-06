@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ru.effective_mobile.task_management_system.dto.utils.Utils.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Ответ c токеном доступа")
+@Schema(description = JWT_DTO)
 public class JwtDTO {
 
-    @Schema(description = "Токен доступа", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpdmFuQGdtYWlsLmNvbSIsImlhdCI6MTcyMjg4ODQ1MiwiZXhwIjoxNzIzMDMyNDUyfQ.r2ldS_Ba59gJE50Cbq9Vi25LT3mGLRV_UrGkx92pVKg")
+    @Schema(description = TOKEN, example = EXAMPLE_TOKEN)
     private String token;
 }

@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
 -- changeset ivan:1
-DROP TABLE comments;
-DROP TABLE tasks;
-DROP TABLE users;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS users;
