@@ -12,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.effective_mobile.task_management_system.mapper.CommentMapper;
-import ru.effective_mobile.task_management_system.mapper.TaskMapper;
 import ru.effective_mobile.task_management_system.repository.CommentRepository;
 import ru.effective_mobile.task_management_system.repository.TaskRepository;
 import ru.effective_mobile.task_management_system.repository.UserRepository;
@@ -43,10 +41,6 @@ class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private CommentMapper commentMapper;
-    @MockBean
-    private TaskMapper taskMapper;
-    @MockBean
     private UserRepository userRepository;
     @MockBean
     private TaskRepository taskRepository;
@@ -71,9 +65,9 @@ class CommentControllerTest {
 
     @Test
     @Order(100)
-    @DisplayName(ADD_COMMENT + " - " + STATUS_200)
+    @DisplayName(ADD_COMMENT + " - " + STATUS_201)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentStatus200() throws Exception {
+    void addCommentStatus201() throws Exception {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findById(anyLong()))

@@ -39,7 +39,7 @@ class AuthServiceTest {
     private AuthServiceImpl authService;
 
     @Test
-    @DisplayName(REGISTER_SUCCESSFUL)
+    @DisplayName(REGISTER + " - " + SUCCESSFUL)
     void testRegisterSuccessful() {
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
                 .thenReturn(TOKEN);
@@ -61,7 +61,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(REGISTER_EXCEPTION)
+    @DisplayName(REGISTER + " - " + EXCEPTION_UNIQUE)
     void testRegisterException() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -78,7 +78,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(LOGIN_SUCCESSFUL)
+    @DisplayName(LOGIN + " - " + SUCCESSFUL)
     void testLoginSuccessful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -98,7 +98,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(LOGIN_EXCEPTION)
+    @DisplayName(LOGIN + " - " + EXCEPTION_EMAIL)
     void testLoginException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 authService.login(loginDTO));

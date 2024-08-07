@@ -16,8 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.effective_mobile.task_management_system.enums.StatusTask;
-import ru.effective_mobile.task_management_system.mapper.CommentMapper;
-import ru.effective_mobile.task_management_system.mapper.TaskMapper;
 import ru.effective_mobile.task_management_system.model.Task;
 import ru.effective_mobile.task_management_system.model.User;
 import ru.effective_mobile.task_management_system.repository.CommentRepository;
@@ -50,10 +48,6 @@ class TaskControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private CommentMapper commentMapper;
-    @MockBean
-    private TaskMapper taskMapper;
-    @MockBean
     private UserRepository userRepository;
     @MockBean
     private TaskRepository taskRepository;
@@ -78,9 +72,9 @@ class TaskControllerTest {
 
     @Test
     @Order(100)
-    @DisplayName(ADD_TASK + " - " + STATUS_200)
+    @DisplayName(ADD_TASK + " - " + STATUS_201)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addTaskStatus200() throws Exception {
+    void addTaskStatus201() throws Exception {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 

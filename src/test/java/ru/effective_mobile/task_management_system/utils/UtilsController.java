@@ -2,6 +2,8 @@ package ru.effective_mobile.task_management_system.utils;
 
 import ru.effective_mobile.task_management_system.dto.comments.CommentDTO;
 import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCommentDTO;
+import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
+import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 import ru.effective_mobile.task_management_system.dto.tasks.*;
 import ru.effective_mobile.task_management_system.model.Comment;
 import ru.effective_mobile.task_management_system.model.Task;
@@ -14,6 +16,16 @@ import static ru.effective_mobile.task_management_system.enums.StatusTask.IS_PEN
 import static ru.effective_mobile.task_management_system.utils.Constants.*;
 
 public class UtilsController {
+
+    public static RegisterDTO registerDTO = RegisterDTO.builder()
+            .firstName(FIRST_NAME_AUTHOR)
+            .lastName(LAST_NAME_AUTHOR)
+            .email(EMAIL_AUTHOR)
+            .password(PASSWORD)
+            .build();
+
+    public static LoginDTO loginDTO =
+            new LoginDTO(EMAIL_AUTHOR, PASSWORD);
 
     public static User author = User.builder()
             .id(1L)

@@ -5,6 +5,7 @@ public class Naming {
     /* STATUS */
 
     public static final String STATUS_200 = "статус 200";
+    public static final String STATUS_201 = "статус 201";
     public static final String STATUS_400 = "статус 400";
     public static final String STATUS_401 = "статус 401";
     public static final String STATUS_403 = "статус 403";
@@ -16,6 +17,7 @@ public class Naming {
     public static final String EXCEPTION_ID = "ошибка (Указан несуществующий ID)";
     public static final String EXCEPTION_TASK_ID = "ошибка (Указан несуществующий ID задачи)";
     public static final String EXCEPTION_AUTHOR_ID = "ошибка (Указан несуществующий ID автора)";
+    public static final String EXCEPTION_UNIQUE = "ошибка (Указан неуникальный email)";
     public static final String EXCEPTION_EMAIL = "ошибка (Указан несуществующий email)";
     public static final String EXCEPTION_NAME = "ошибка (Указано несуществующее имя)";
     public static final String EXCEPTION_FORBIDDEN = "ошибка (Ошибка доступа)";
@@ -26,11 +28,8 @@ public class Naming {
 
     /* AUTH */
 
-    public static final String REGISTER_SUCCESSFUL = "Регистрация - успешно";
-    public static final String REGISTER_EXCEPTION = "Регистрация - ошибка (Указан неуникальный email)";
-
-    public static final String LOGIN_SUCCESSFUL = "Авторизация - успешно";
-    public static final String LOGIN_EXCEPTION = "Авторизация - ошибка (Указан несуществующий email)";
+    public static final String REGISTER = "Регистрация";
+    public static final String LOGIN = "Авторизация";
 
     /* TASK */
 
