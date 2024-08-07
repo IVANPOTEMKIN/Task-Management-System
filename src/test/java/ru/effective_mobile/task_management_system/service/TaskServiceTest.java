@@ -72,7 +72,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(201)
+    @Order(200)
     @DisplayName(value = "Получение задачи по ID - успешно")
     void getTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
@@ -89,7 +89,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(202)
+    @Order(201)
     @DisplayName(value = "Получение задачи по ID - ошибка (Указан несуществующий ID)")
     void getTaskByIdException() {
         when(taskRepository.findById(anyLong()))
@@ -103,7 +103,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(203)
+    @Order(202)
     @DisplayName(value = "Получение всех задач - успешно")
     void getAllTasksSuccessful() {
         Page<Task> page = new PageImpl<>(List.of(task));
@@ -122,7 +122,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(204)
+    @Order(203)
     @DisplayName(value = "Получение всех задач по заголовку - успешно")
     void getAllTasksByHeaderSuccessful() {
         when(taskRepository.findAllByHeaderContainingIgnoreCase(anyString(), any(Pageable.class)))
@@ -140,7 +140,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(205)
+    @Order(204)
     @DisplayName(value = "Получение всех задач по статусу - успешно")
     void getAllTasksByStatusSuccessful() {
         when(taskRepository.findAllByStatus(any(StatusTask.class), any(Pageable.class)))
@@ -157,7 +157,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(206)
+    @Order(205)
     @DisplayName(value = "Получение всех задач по приоритету - успешно")
     void getAllTasksByPrioritySuccessful() {
         when(taskRepository.findAllByPriority(any(PriorityTask.class), any(Pageable.class)))
@@ -174,7 +174,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(207)
+    @Order(206)
     @DisplayName(value = "Получение всех задач по ID автора - успешно")
     void getAllTasksByAuthorIdSuccessful() {
         when(userRepository.findById(anyLong()))
@@ -195,7 +195,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(208)
+    @Order(207)
     @DisplayName(value = "Получение всех задач по ID автора - ошибка (Указан несуществующий ID)")
     void getAllTasksByAuthorIdException() {
         when(userRepository.findById(anyLong()))
@@ -211,7 +211,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(209)
+    @Order(208)
     @DisplayName(value = "Получение всех задач по ID исполнителя - успешно")
     void getAllTasksByPerformerIdSuccessful() {
         when(userRepository.findById(anyLong()))
@@ -232,7 +232,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(210)
+    @Order(209)
     @DisplayName(value = "Получение всех задач по ID исполнителя - ошибка (Указан несуществующий ID)")
     void getAllTasksByPerformerIdException() {
         when(userRepository.findById(anyLong()))
@@ -248,7 +248,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(211)
+    @Order(210)
     @DisplayName(value = "Получение всех задач по email автора - успешно")
     void getAllTasksByAuthorEmailSuccessful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
@@ -269,7 +269,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(212)
+    @Order(211)
     @DisplayName(value = "Получение всех задач по email автора - ошибка (Указан несуществующий email)")
     void getAllTasksByAuthorEmailException() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
@@ -285,7 +285,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(213)
+    @Order(212)
     @DisplayName(value = "Получение всех задач по email исполнителя - успешно")
     void getAllTasksByPerformerEmailSuccessful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
@@ -306,7 +306,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(214)
+    @Order(213)
     @DisplayName(value = "Получение всех задач по email исполнителя - ошибка (Указан несуществующий email)")
     void getAllTasksByPerformerEmailException() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
@@ -322,7 +322,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(215)
+    @Order(214)
     @DisplayName(value = "Получение всех задач по имени автора - успешно")
     void getAllTasksByAuthorFullNameSuccessful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
@@ -343,7 +343,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(216)
+    @Order(215)
     @DisplayName(value = "Получение всех задач по имени автора - ошибка (Указано несуществующее имя)")
     void getAllTasksByAuthorFullNameException() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
@@ -359,7 +359,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(217)
+    @Order(216)
     @DisplayName(value = "Получение всех задач по имени исполнителя - успешно")
     void getAllTasksByPerformerFullNameSuccessful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
@@ -380,7 +380,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(218)
+    @Order(217)
     @DisplayName(value = "Получение всех задач по имени исполнителя - ошибка (Указано несуществующее имя)")
     void getAllTasksByPerformerFullNameException() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
@@ -396,7 +396,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(301)
+    @Order(300)
     @DisplayName(value = "Изменение заголовка по ID задачи - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editHeaderTaskByIdSuccessful() {
@@ -412,7 +412,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(302)
+    @Order(301)
     @DisplayName(value = "Изменение заголовка по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void editHeaderTaskByIdForbiddenException() {
@@ -429,7 +429,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(303)
+    @Order(302)
     @DisplayName(value = "Изменение заголовка по ID задачи - ошибка (Указан несуществующий ID)")
     void editHeaderTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))
@@ -445,7 +445,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(401)
+    @Order(400)
     @DisplayName(value = "Изменение описания по ID задачи - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editDescriptionTaskByIdSuccessful() {
@@ -461,7 +461,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(402)
+    @Order(401)
     @DisplayName(value = "Изменение описания по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void editDescriptionTaskByIdForbiddenException() {
@@ -478,7 +478,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(403)
+    @Order(402)
     @DisplayName(value = "Изменение описания по ID задачи - ошибка (Указан несуществующий ID)")
     void editDescriptionTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))
@@ -494,7 +494,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(701)
+    @Order(700)
     @DisplayName(value = "Изменение исполнителя по ID задачи - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editPerformerTaskByIdSuccessful() {
@@ -514,7 +514,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(702)
+    @Order(701)
     @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void editPerformerTaskByIdForbiddenException() {
@@ -533,7 +533,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(703)
+    @Order(702)
     @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Указан несуществующий ID задачи)")
     void editPerformerTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))
@@ -551,7 +551,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(704)
+    @Order(703)
     @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Указан несуществующий ID исполнителя)")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editPerformerTaskByIdExceptionUser() {
@@ -572,7 +572,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(601)
+    @Order(600)
     @DisplayName(value = "Изменение приоритета по ID задачи - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editPriorityTaskByIdSuccessful() {
@@ -588,7 +588,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(602)
+    @Order(601)
     @DisplayName(value = "Изменение приоритета по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void editPriorityTaskByIdForbiddenException() {
@@ -605,7 +605,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(603)
+    @Order(602)
     @DisplayName(value = "Изменение приоритета по ID задачи - ошибка (Указан несуществующий ID)")
     void editPriorityTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))
@@ -621,7 +621,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(501)
+    @Order(500)
     @DisplayName(value = "Изменение статуса по ID задачи автором - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void editStatusTaskByIdSuccessfulAuthor() {
@@ -637,7 +637,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(502)
+    @Order(501)
     @DisplayName(value = "Изменение статуса по ID задачи исполнителем - успешно")
     @WithMockUser(username = "performer@gmail.com", authorities = "USER")
     void editStatusTaskByIdSuccessfulPerformer() {
@@ -653,7 +653,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(503)
+    @Order(502)
     @DisplayName(value = "Изменение статуса по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void editStatusTaskByIdForbiddenException() {
@@ -670,7 +670,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(504)
+    @Order(503)
     @DisplayName(value = "Изменение статуса по ID задачи - ошибка (Указан несуществующий ID)")
     void editStatusTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))
@@ -686,7 +686,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(801)
+    @Order(800)
     @DisplayName(value = "Удаление задачи по ID задачи - успешно")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void deleteTaskByIdSuccessful() {
@@ -702,7 +702,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(802)
+    @Order(801)
     @DisplayName(value = "Удаление задачи по ID задачи - ошибка (Ошибка доступа)")
     @WithMockUser(username = "user@gmail.com", authorities = "USER")
     void deleteTaskByIdForbiddenException() {
@@ -719,7 +719,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @Order(803)
+    @Order(802)
     @DisplayName(value = "Удаление задачи по ID задачи - ошибка (Указан несуществующий ID)")
     void deleteTaskByIdExceptionTask() {
         when(taskRepository.findById(anyLong()))

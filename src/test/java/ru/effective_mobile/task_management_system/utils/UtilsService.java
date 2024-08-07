@@ -1,9 +1,12 @@
 package ru.effective_mobile.task_management_system.utils;
 
+import ru.effective_mobile.task_management_system.dto.comments.CommentDTO;
+import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCommentDTO;
 import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
 import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
 import ru.effective_mobile.task_management_system.dto.tasks.CreateTaskDTO;
 import ru.effective_mobile.task_management_system.dto.tasks.TaskDTO;
+import ru.effective_mobile.task_management_system.model.Comment;
 import ru.effective_mobile.task_management_system.model.Task;
 import ru.effective_mobile.task_management_system.model.User;
 
@@ -77,4 +80,23 @@ public class UtilsService {
             .build();
 
     public static List<TaskDTO> listTaskDTO = List.of(taskDTO);
+
+    public static CreateOrUpdateCommentDTO createOrUpdateCommentDTO =
+            new CreateOrUpdateCommentDTO("Текст комментария");
+
+    public static Comment comment = Comment.builder()
+            .id(1L)
+            .text("Текст комментария")
+            .author(author)
+            .task(task)
+            .createdAt(MIN)
+            .build();
+
+    public static CommentDTO commentDTO = CommentDTO.builder()
+            .author("Иван Иванов")
+            .text("Текст комментария")
+            .createdAt(MIN)
+            .build();
+
+    public static List<CommentDTO> listCommentDto = List.of(commentDTO);
 }
