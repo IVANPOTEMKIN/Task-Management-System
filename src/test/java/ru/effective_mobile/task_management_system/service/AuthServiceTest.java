@@ -39,8 +39,6 @@ class AuthServiceTest {
     @Test
     @DisplayName(value = "Регистрация - успешно")
     void testRegisterSuccessful() {
-        when(userRepository.findByEmail(anyString()))
-                .thenReturn(Optional.empty());
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
                 .thenReturn("token");
 
@@ -100,9 +98,6 @@ class AuthServiceTest {
     @Test
     @DisplayName(value = "Авторизация - ошибка (Указан несуществующий email)")
     void testLoginException() {
-        when(userRepository.findByEmail(anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserEmailNotFoundException.class, () ->
                 authService.login(loginDTO));
 

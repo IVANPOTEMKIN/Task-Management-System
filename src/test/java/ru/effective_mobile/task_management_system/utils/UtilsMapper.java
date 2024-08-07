@@ -35,7 +35,7 @@ public class UtilsMapper {
 
     public static Task task = Task.builder()
             .id(1L)
-            .header("Заголовок")
+            .header("Заголовок задачи")
             .description("Описание задачи")
             .status(IS_PENDING)
             .priority(MEDIUM)
@@ -53,7 +53,7 @@ public class UtilsMapper {
             .build();
 
     public static TaskDTO taskDTO = TaskDTO.builder()
-            .header("Заголовок")
+            .header("Заголовок задачи")
             .description("Описание задачи")
             .status(IS_PENDING)
             .priority(MEDIUM)
@@ -71,7 +71,7 @@ public class UtilsMapper {
             .build();
 
     public static CreateTaskDTO createTaskDTO = CreateTaskDTO.builder()
-            .header("Заголовок")
+            .header("Заголовок задачи")
             .description("Описание задачи")
             .status(IS_PENDING)
             .priority(MEDIUM)

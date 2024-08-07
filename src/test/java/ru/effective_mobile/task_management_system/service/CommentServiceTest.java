@@ -74,9 +74,6 @@ class CommentServiceTest {
     @DisplayName(value = "Добавление нового комментария - ошибка (Указан несуществующий email автора)")
     @WithMockUser(username = "author@gmail.com", authorities = "USER")
     void addCommentExceptionAuthor() {
-        when(userRepository.findByEmail(anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserEmailNotFoundException.class, () ->
                 commentService.addComment(anyLong(), createOrUpdateCommentDTO));
 
@@ -95,9 +92,6 @@ class CommentServiceTest {
     void addCommentExceptionTask() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.addComment(anyLong(), createOrUpdateCommentDTO));
 
@@ -130,9 +124,6 @@ class CommentServiceTest {
     @Order(201)
     @DisplayName(value = "Получение комментария по ID - ошибка (Указан несуществующий ID)")
     void getCommentByIdException() {
-        when(commentRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.getCommentById(anyLong()));
 
@@ -165,9 +156,6 @@ class CommentServiceTest {
     @Order(203)
     @DisplayName(value = "Получение всех комментариев по ID задачи - ошибка (Указан несуществующий ID задачи)")
     void getAllCommentsByTaskIdException() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskId(anyLong(), 1, 1));
 
@@ -202,9 +190,6 @@ class CommentServiceTest {
     @Order(205)
     @DisplayName(value = "Получение всех комментариев по ID автора - ошибка (Указан несуществующий ID автора)")
     void getAllCommentsByAuthorIdException() {
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserIdNotFoundException.class, () ->
                 commentService.getAllCommentsByAuthorId(anyLong(), 1, 1));
 
@@ -243,9 +228,6 @@ class CommentServiceTest {
     @Order(207)
     @DisplayName(value = "Получение всех комментариев по ID задачи и ID автора - ошибка (Указан несуществующий ID задачи)")
     void getAllCommentsByTaskIdAuthorIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1));
 
@@ -263,9 +245,6 @@ class CommentServiceTest {
     void getAllCommentsByTaskIdAuthorIdExceptionAuthor() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserIdNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1));
 
@@ -315,9 +294,6 @@ class CommentServiceTest {
     @Order(302)
     @DisplayName(value = "Изменение текста комментария по ID - ошибка (Указан несуществующий ID)")
     void editTextCommentExceptionComment() {
-        when(commentRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.editTextComment(anyLong(), new CreateOrUpdateCommentDTO("Новый текст комментария")));
 
@@ -364,9 +340,6 @@ class CommentServiceTest {
     @Order(402)
     @DisplayName(value = "Удаление комментария по ID - ошибка (Указан несуществующий ID)")
     void deleteCommentExceptionComment() {
-        when(commentRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.deleteComment(anyLong()));
 

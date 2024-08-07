@@ -27,7 +27,7 @@ class TaskMapperTest {
     @DisplayName(value = "Маппинг - успешно")
     void testCreateTaskDTOToTask() {
         var expected = Task.builder()
-                .header("Заголовок")
+                .header("Заголовок задачи")
                 .description("Описание задачи")
                 .status(IS_PENDING)
                 .priority(MEDIUM)

@@ -92,9 +92,6 @@ class TaskServiceTest {
     @Order(201)
     @DisplayName(value = "Получение задачи по ID - ошибка (Указан несуществующий ID)")
     void getTaskByIdException() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.getTaskById(anyLong()));
 
@@ -198,9 +195,6 @@ class TaskServiceTest {
     @Order(207)
     @DisplayName(value = "Получение всех задач по ID автора - ошибка (Указан несуществующий ID)")
     void getAllTasksByAuthorIdException() {
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorId(anyLong(), 1, 1));
 
@@ -235,9 +229,6 @@ class TaskServiceTest {
     @Order(209)
     @DisplayName(value = "Получение всех задач по ID исполнителя - ошибка (Указан несуществующий ID)")
     void getAllTasksByPerformerIdException() {
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerId(anyLong(), 1, 1));
 
@@ -272,9 +263,6 @@ class TaskServiceTest {
     @Order(211)
     @DisplayName(value = "Получение всех задач по email автора - ошибка (Указан несуществующий email)")
     void getAllTasksByAuthorEmailException() {
-        when(userRepository.findByEmailContainingIgnoreCase(anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorEmail(anyString(), 1, 1));
 
@@ -309,9 +297,6 @@ class TaskServiceTest {
     @Order(213)
     @DisplayName(value = "Получение всех задач по email исполнителя - ошибка (Указан несуществующий email)")
     void getAllTasksByPerformerEmailException() {
-        when(userRepository.findByEmailContainingIgnoreCase(anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerEmail(anyString(), 1, 1));
 
@@ -346,9 +331,6 @@ class TaskServiceTest {
     @Order(215)
     @DisplayName(value = "Получение всех задач по имени автора - ошибка (Указано несуществующее имя)")
     void getAllTasksByAuthorFullNameException() {
-        when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorFullName(anyString(), anyString(), 1, 1));
 
@@ -383,9 +365,6 @@ class TaskServiceTest {
     @Order(217)
     @DisplayName(value = "Получение всех задач по имени исполнителя - ошибка (Указано несуществующее имя)")
     void getAllTasksByPerformerFullNameException() {
-        when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerFullName(anyString(), anyString(), 1, 1));
 
@@ -432,9 +411,6 @@ class TaskServiceTest {
     @Order(302)
     @DisplayName(value = "Изменение заголовка по ID задачи - ошибка (Указан несуществующий ID)")
     void editHeaderTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editHeaderTaskById(anyLong(), new UpdateHeaderTaskDTO("Новый заголовок")));
 
@@ -481,9 +457,6 @@ class TaskServiceTest {
     @Order(402)
     @DisplayName(value = "Изменение описания по ID задачи - ошибка (Указан несуществующий ID)")
     void editDescriptionTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editDescriptionTaskById(anyLong(), new UpdateDescriptionTaskDTO("Новое описание задачи")));
 
@@ -536,9 +509,6 @@ class TaskServiceTest {
     @Order(702)
     @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Указан несуществующий ID задачи)")
     void editPerformerTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
 
@@ -557,9 +527,6 @@ class TaskServiceTest {
     void editPerformerTaskByIdExceptionUser() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
-        when(userRepository.findByEmail(anyString()))
-                .thenReturn(Optional.empty());
-
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
 
@@ -608,9 +575,6 @@ class TaskServiceTest {
     @Order(602)
     @DisplayName(value = "Изменение приоритета по ID задачи - ошибка (Указан несуществующий ID)")
     void editPriorityTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editPriorityTaskById(anyLong(), HIGH));
 
@@ -673,9 +637,6 @@ class TaskServiceTest {
     @Order(503)
     @DisplayName(value = "Изменение статуса по ID задачи - ошибка (Указан несуществующий ID)")
     void editStatusTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editStatusTaskById(anyLong(), IN_PROGRESS));
 
@@ -722,9 +683,6 @@ class TaskServiceTest {
     @Order(802)
     @DisplayName(value = "Удаление задачи по ID задачи - ошибка (Указан несуществующий ID)")
     void deleteTaskByIdExceptionTask() {
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.empty());
-
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.deleteTaskById(anyLong()));
 

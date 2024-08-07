@@ -1,23 +1,15 @@
 package ru.effective_mobile.task_management_system.utils;
 
-import ru.effective_mobile.task_management_system.dto.comments.CommentDTO;
-import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCommentDTO;
-import ru.effective_mobile.task_management_system.dto.security.LoginDTO;
-import ru.effective_mobile.task_management_system.dto.security.RegisterDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.CreateTaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.TaskDTO;
-import ru.effective_mobile.task_management_system.model.Comment;
+import ru.effective_mobile.task_management_system.dto.tasks.*;
 import ru.effective_mobile.task_management_system.model.Task;
 import ru.effective_mobile.task_management_system.model.User;
-
-import java.util.List;
 
 import static java.time.LocalDateTime.MIN;
 import static ru.effective_mobile.task_management_system.enums.PriorityTask.MEDIUM;
 import static ru.effective_mobile.task_management_system.enums.Role.USER;
 import static ru.effective_mobile.task_management_system.enums.StatusTask.IS_PENDING;
 
-public class UtilsService {
+public class UtilsController {
 
     public static User author = User.builder()
             .id(1L)
@@ -67,36 +59,12 @@ public class UtilsService {
             .priority(MEDIUM)
             .build();
 
-    public static RegisterDTO registerDTO = RegisterDTO.builder()
-            .firstName("Иван")
-            .lastName("Иванов")
-            .email("user@gmail.com")
-            .password("QwErTy.1234")
-            .build();
+    public static UpdateHeaderTaskDTO updateHeaderTaskDTO =
+            new UpdateHeaderTaskDTO("Новый заголовок задачи");
 
-    public static LoginDTO loginDTO = LoginDTO.builder()
-            .email("user@gmail.com")
-            .password("QwErTy.1234")
-            .build();
+    public static UpdateDescriptionTaskDTO updateDescriptionTaskDTO =
+            new UpdateDescriptionTaskDTO("Новое описание задачи");
 
-    public static List<TaskDTO> listTaskDTO = List.of(taskDTO);
-
-    public static CreateOrUpdateCommentDTO createOrUpdateCommentDTO =
-            new CreateOrUpdateCommentDTO("Текст комментария");
-
-    public static Comment comment = Comment.builder()
-            .id(1L)
-            .text("Текст комментария")
-            .author(author)
-            .task(task)
-            .createdAt(MIN)
-            .build();
-
-    public static CommentDTO commentDTO = CommentDTO.builder()
-            .author("Иван Иванов")
-            .text("Текст комментария")
-            .createdAt(MIN)
-            .build();
-
-    public static List<CommentDTO> listCommentDto = List.of(commentDTO);
+    public static UpdatePerformerTaskDTO updatePerformerTaskDTO =
+            new UpdatePerformerTaskDTO("author@gmail.com");
 }
