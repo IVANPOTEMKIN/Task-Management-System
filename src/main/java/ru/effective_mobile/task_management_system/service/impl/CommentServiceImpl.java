@@ -82,8 +82,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getAllCommentsByTaskIdAuthorId(Long taskId, Long authorId,
-                                                           Integer offset, Integer limit) {
+    public List<CommentDTO> getAllCommentsByTaskIdAndAuthorId(Long taskId, Long authorId,
+                                                              Integer offset, Integer limit) {
 
         var task = taskRepository.findById(taskId)
                 .orElseThrow(TaskNotFoundException::new);

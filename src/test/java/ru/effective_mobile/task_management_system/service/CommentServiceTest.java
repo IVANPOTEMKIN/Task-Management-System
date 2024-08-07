@@ -55,7 +55,7 @@ class CommentServiceTest {
     @Order(100)
     @DisplayName(ADD_COMMENT + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentSuccessful() {
+    void test_add_Comment_Successful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findById(anyLong()))
@@ -75,7 +75,7 @@ class CommentServiceTest {
     @Order(101)
     @DisplayName(ADD_COMMENT + " - " + EXCEPTION_EMAIL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentExceptionAuthor() {
+    void test_addComment_UserEmailNotFoundException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 commentService.addComment(anyLong(), createOrUpdateCommentDTO));
 
@@ -91,7 +91,7 @@ class CommentServiceTest {
     @Order(102)
     @DisplayName(ADD_COMMENT + " - " + EXCEPTION_ID)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentExceptionTask() {
+    void test_addComment_TaskNotFoundException() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         assertThrows(TaskNotFoundException.class, () ->
@@ -108,7 +108,7 @@ class CommentServiceTest {
     @Test
     @Order(200)
     @DisplayName(GET_COMMENT_BY_ID + " - " + SUCCESSFUL)
-    void getCommentByIdSuccessful() {
+    void test_getCommentById_Successful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
@@ -125,7 +125,7 @@ class CommentServiceTest {
     @Test
     @Order(201)
     @DisplayName(GET_COMMENT_BY_ID + " - " + EXCEPTION_ID)
-    void getCommentByIdException() {
+    void test_getCommentById_CommentNotFoundException() {
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.getCommentById(anyLong()));
 
@@ -136,7 +136,7 @@ class CommentServiceTest {
     @Test
     @Order(202)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + SUCCESSFUL)
-    void getAllCommentsByTaskIdSuccessful() {
+    void test_getAllCommentsByTaskId_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         when(commentRepository.findAllByTask(any(Task.class), any(Pageable.class)))
@@ -157,7 +157,7 @@ class CommentServiceTest {
     @Test
     @Order(203)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + EXCEPTION_TASK_ID)
-    void getAllCommentsByTaskIdException() {
+    void test_getAllCommentsByTaskId_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskId(anyLong(), 1, 1));
 
@@ -170,7 +170,7 @@ class CommentServiceTest {
     @Test
     @Order(204)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + "  - " + SUCCESSFUL)
-    void getAllCommentsByAuthorIdSuccessful() {
+    void test_getAllCommentsByAuthorId_Successful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
         when(commentRepository.findAllByAuthor(any(User.class), any(Pageable.class)))
@@ -191,7 +191,7 @@ class CommentServiceTest {
     @Test
     @Order(205)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + "  - " + EXCEPTION_AUTHOR_ID)
-    void getAllCommentsByAuthorIdException() {
+    void test_getAllCommentsByAuthorId_UserIdNotFoundException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 commentService.getAllCommentsByAuthorId(anyLong(), 1, 1));
 
@@ -204,7 +204,7 @@ class CommentServiceTest {
     @Test
     @Order(206)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + SUCCESSFUL)
-    void getAllCommentsByTaskIdAuthorIdSuccessful() {
+    void test_getAllCommentsByTaskIdAndAuthorId_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         when(userRepository.findById(anyLong()))
@@ -213,7 +213,7 @@ class CommentServiceTest {
                 .thenReturn(List.of(comment));
 
         var expected = listCommentDto;
-        var actual = commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1);
+        var actual = commentService.getAllCommentsByTaskIdAndAuthorId(1L, 1L, 1, 1);
 
         assertNotNull(actual);
         assertEquals(expected, actual);
@@ -229,9 +229,9 @@ class CommentServiceTest {
     @Test
     @Order(207)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + EXCEPTION_TASK_ID)
-    void getAllCommentsByTaskIdAuthorIdExceptionTask() {
+    void test_getAllCommentsByTaskIdAuthorId_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
-                commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1));
+                commentService.getAllCommentsByTaskIdAndAuthorId(1L, 1L, 1, 1));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -244,11 +244,11 @@ class CommentServiceTest {
     @Test
     @Order(208)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + EXCEPTION_AUTHOR_ID)
-    void getAllCommentsByTaskIdAuthorIdExceptionAuthor() {
+    void test_getAllCommentsByTaskIdAuthorId_UserIdNotFoundException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         assertThrows(UserIdNotFoundException.class, () ->
-                commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1));
+                commentService.getAllCommentsByTaskIdAndAuthorId(1L, 1L, 1, 1));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -262,7 +262,7 @@ class CommentServiceTest {
     @Order(300)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editTextCommentSuccessful() {
+    void test_editTextComment_Successful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
@@ -278,7 +278,7 @@ class CommentServiceTest {
     @Order(301)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editTextCommentForbiddenException() {
+    void test_editTextComment_ForbiddenException() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
@@ -294,7 +294,7 @@ class CommentServiceTest {
     @Test
     @Order(302)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + EXCEPTION_ID)
-    void editTextCommentExceptionComment() {
+    void test_editTextComment_CommentNotFoundException() {
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.editTextComment(anyLong(), createOrUpdateCommentDTO));
 
@@ -308,7 +308,7 @@ class CommentServiceTest {
     @Order(400)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void deleteCommentSuccessful() {
+    void test_deleteComment_Successful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
@@ -324,7 +324,7 @@ class CommentServiceTest {
     @Order(401)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void deleteCommentForbiddenException() {
+    void test_deleteComment_ForbiddenException() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
@@ -340,7 +340,7 @@ class CommentServiceTest {
     @Test
     @Order(402)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + EXCEPTION_ID)
-    void deleteCommentExceptionComment() {
+    void test_deleteComment_CommentNotFoundException() {
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.deleteComment(anyLong()));
 

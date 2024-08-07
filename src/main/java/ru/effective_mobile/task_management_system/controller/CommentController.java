@@ -231,12 +231,12 @@ public class CommentController {
     )
     @SecurityRequirement(name = "JWT")
     @GetMapping("/get/all/taskId/{ID_TASK}/authorId/{ID_AUTHOR}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorIdAndTaskId(@PathVariable(name = "ID_TASK") Long taskId,
+    public ResponseEntity<List<CommentDTO>> getAllCommentsByTaskIdAndAuthorId(@PathVariable(name = "ID_TASK") Long taskId,
                                                                               @PathVariable(name = "ID_AUTHOR") Long authorId,
                                                                               @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                               @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
 
-        return ResponseEntity.ok(commentService.getAllCommentsByTaskIdAuthorId(taskId, authorId, offset, limit));
+        return ResponseEntity.ok(commentService.getAllCommentsByTaskIdAndAuthorId(taskId, authorId, offset, limit));
     }
 
     @Operation(

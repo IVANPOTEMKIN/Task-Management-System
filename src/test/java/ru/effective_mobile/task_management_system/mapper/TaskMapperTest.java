@@ -18,7 +18,7 @@ class TaskMapperTest {
 
     @Test
     @DisplayName(MAPPING)
-    void testTaskToTaskDTO() {
+    void test_taskToTaskDTO() {
         var expected = taskDTO;
         var actual = INSTANCE.taskToTaskDTO(task);
 
@@ -28,7 +28,7 @@ class TaskMapperTest {
 
     @Test
     @DisplayName(MAPPING)
-    void testCreateTaskDTOToTask() {
+    void test_createTaskDTOToTask() {
         var expected = Task.builder()
                 .header(HEADER)
                 .description(DESCRIPTION)

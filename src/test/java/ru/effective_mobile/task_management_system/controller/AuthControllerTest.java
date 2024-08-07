@@ -66,7 +66,7 @@ class AuthControllerTest {
     @Test
     @Order(1)
     @DisplayName(REGISTER + " - " + STATUS_201)
-    void registerStatus201() throws Exception {
+    void test_register_Status201() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/auth/register")
                         .content(objectMapper.writeValueAsString(registerDTO))
@@ -77,7 +77,7 @@ class AuthControllerTest {
     @Test
     @Order(2)
     @DisplayName(REGISTER + " - " + STATUS_400)
-    void registerStatus400Email() throws Exception {
+    void test_register_Status400_EmailAlreadyUseException() throws Exception {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 
@@ -91,7 +91,7 @@ class AuthControllerTest {
     @Test
     @Order(3)
     @DisplayName(REGISTER + " - " + STATUS_400)
-    void registerStatus400BodyRequest() throws Exception {
+    void test_register_Status400_RequestBodyValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/auth/register")
                         .content(objectMapper.writeValueAsString(null))
@@ -102,7 +102,7 @@ class AuthControllerTest {
     @Test
     @Order(4)
     @DisplayName(LOGIN + " - " + STATUS_200)
-    void loginStatus200() throws Exception {
+    void test_login_Status200() throws Exception {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 
@@ -116,7 +116,7 @@ class AuthControllerTest {
     @Test
     @Order(5)
     @DisplayName(LOGIN + " - " + STATUS_400)
-    void loginStatus400() throws Exception {
+    void test_login_Status400_RequestBodyValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/auth/login")
                         .content(objectMapper.writeValueAsString(null))
@@ -127,7 +127,7 @@ class AuthControllerTest {
     @Test
     @Order(6)
     @DisplayName(LOGIN + " - " + STATUS_404)
-    void loginStatus404() throws Exception {
+    void test_login_Status404_UserEmailNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/auth/login")
                         .content(objectMapper.writeValueAsString(loginDTO))

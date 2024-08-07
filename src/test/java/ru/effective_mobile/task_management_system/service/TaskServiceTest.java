@@ -56,7 +56,7 @@ class TaskServiceTest {
     @Order(100)
     @DisplayName(ADD_TASK + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addTaskSuccessful() {
+    void test_addTask_Successful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 
@@ -73,7 +73,7 @@ class TaskServiceTest {
     @Test
     @Order(200)
     @DisplayName(GET_TASK_BY_ID + " - " + SUCCESSFUL)
-    void getTaskByIdSuccessful() {
+    void test_getTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -90,7 +90,7 @@ class TaskServiceTest {
     @Test
     @Order(201)
     @DisplayName(GET_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void getTaskByIdException() {
+    void test_getTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.getTaskById(anyLong()));
 
@@ -101,7 +101,7 @@ class TaskServiceTest {
     @Test
     @Order(202)
     @DisplayName(GET_ALL_TASKS + " - " + SUCCESSFUL)
-    void getAllTasksSuccessful() {
+    void test_getAllTasks_Successful() {
         Page<Task> page = new PageImpl<>(List.of(task));
 
         when(taskRepository.findAll(any(Pageable.class)))
@@ -120,7 +120,7 @@ class TaskServiceTest {
     @Test
     @Order(203)
     @DisplayName(GET_ALL_TASKS_BY_HEADER + " - " + SUCCESSFUL)
-    void getAllTasksByHeaderSuccessful() {
+    void test_getAllTasksByHeader_Successful() {
         when(taskRepository.findAllByHeaderContainingIgnoreCase(anyString(), any(Pageable.class)))
                 .thenReturn(List.of(task));
 
@@ -138,7 +138,7 @@ class TaskServiceTest {
     @Test
     @Order(204)
     @DisplayName(GET_ALL_TASKS_BY_STATUS + " - " + SUCCESSFUL)
-    void getAllTasksByStatusSuccessful() {
+    void test_getAllTasksByStatus_Successful() {
         when(taskRepository.findAllByStatus(any(StatusTask.class), any(Pageable.class)))
                 .thenReturn(List.of(task));
 
@@ -155,7 +155,7 @@ class TaskServiceTest {
     @Test
     @Order(205)
     @DisplayName(GET_ALL_TASKS_BY_PRIORITY + " - " + SUCCESSFUL)
-    void getAllTasksByPrioritySuccessful() {
+    void test_getAllTasksByPriority_Successful() {
         when(taskRepository.findAllByPriority(any(PriorityTask.class), any(Pageable.class)))
                 .thenReturn(List.of(task));
 
@@ -172,7 +172,7 @@ class TaskServiceTest {
     @Test
     @Order(206)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_ID + " - " + SUCCESSFUL)
-    void getAllTasksByAuthorIdSuccessful() {
+    void test_getAllTasksByAuthorId_Successful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findAllByAuthor(any(User.class), any(Pageable.class)))
@@ -193,7 +193,7 @@ class TaskServiceTest {
     @Test
     @Order(207)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_ID + " - " + EXCEPTION_ID)
-    void getAllTasksByAuthorIdException() {
+    void test_getAllTasksByAuthorId_UserIdNotFoundException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorId(anyLong(), 1, 1));
 
@@ -206,7 +206,7 @@ class TaskServiceTest {
     @Test
     @Order(208)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_ID + " - " + SUCCESSFUL)
-    void getAllTasksByPerformerIdSuccessful() {
+    void test_getAllTasksByPerformerId_Successful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(performer));
         when(taskRepository.findAllByPerformer(any(User.class), any(Pageable.class)))
@@ -227,7 +227,7 @@ class TaskServiceTest {
     @Test
     @Order(209)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_ID + " - " + EXCEPTION_ID)
-    void getAllTasksByPerformerIdException() {
+    void test_getAllTasksByPerformerId_UserIdNotFoundException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerId(anyLong(), 1, 1));
 
@@ -240,7 +240,7 @@ class TaskServiceTest {
     @Test
     @Order(210)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_EMAIL + " - " + SUCCESSFUL)
-    void getAllTasksByAuthorEmailSuccessful() {
+    void test_getAllTasksByAuthorEmail_Successful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findAllByAuthor(any(User.class), any(Pageable.class)))
@@ -261,7 +261,7 @@ class TaskServiceTest {
     @Test
     @Order(211)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_EMAIL + " - " + EXCEPTION_EMAIL)
-    void getAllTasksByAuthorEmailException() {
+    void test_getAllTasksByAuthorEmail_UserEmailNotFoundException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorEmail(anyString(), 1, 1));
 
@@ -274,7 +274,7 @@ class TaskServiceTest {
     @Test
     @Order(212)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_EMAIL + " - " + SUCCESSFUL)
-    void getAllTasksByPerformerEmailSuccessful() {
+    void test_getAllTasksByPerformerEmail_Successful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findAllByPerformer(any(User.class), any(Pageable.class)))
@@ -295,7 +295,7 @@ class TaskServiceTest {
     @Test
     @Order(213)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_EMAIL + " - " + EXCEPTION_EMAIL)
-    void getAllTasksByPerformerEmailException() {
+    void test_getAllTasksByPerformerEmail_UserEmailNotFoundException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerEmail(anyString(), 1, 1));
 
@@ -308,7 +308,7 @@ class TaskServiceTest {
     @Test
     @Order(214)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_FULL_NAME + " - " + SUCCESSFUL)
-    void getAllTasksByAuthorFullNameSuccessful() {
+    void test_getAllTasksByAuthorFullName_Successful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findAllByAuthor(any(User.class), any(Pageable.class)))
@@ -329,7 +329,7 @@ class TaskServiceTest {
     @Test
     @Order(215)
     @DisplayName(GET_ALL_TASKS_BY_AUTHOR_FULL_NAME + " - " + EXCEPTION_NAME)
-    void getAllTasksByAuthorFullNameException() {
+    void test_getAllTasksByAuthorFullName_UserFullNameNotFoundException() {
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorFullName(anyString(), anyString(), 1, 1));
 
@@ -342,7 +342,7 @@ class TaskServiceTest {
     @Test
     @Order(216)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_FULL_NAME + " - " + SUCCESSFUL)
-    void getAllTasksByPerformerFullNameSuccessful() {
+    void test_getAllTasksByPerformerFullName_Successful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findAllByPerformer(any(User.class), any(Pageable.class)))
@@ -363,7 +363,7 @@ class TaskServiceTest {
     @Test
     @Order(217)
     @DisplayName(GET_ALL_TASKS_BY_PERFORMER_FULL_NAME + " - " + EXCEPTION_NAME)
-    void getAllTasksByPerformerFullNameException() {
+    void test_getAllTasksByPerformerFullName_UserFullNameNotFoundException() {
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerFullName(anyString(), anyString(), 1, 1));
 
@@ -377,7 +377,7 @@ class TaskServiceTest {
     @Order(300)
     @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editHeaderTaskByIdSuccessful() {
+    void test_editHeaderTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -393,7 +393,7 @@ class TaskServiceTest {
     @Order(301)
     @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editHeaderTaskByIdForbiddenException() {
+    void test_editHeaderTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -409,7 +409,7 @@ class TaskServiceTest {
     @Test
     @Order(302)
     @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void editHeaderTaskByIdExceptionTask() {
+    void test_editHeaderTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editHeaderTaskById(anyLong(), updateHeaderTaskDTO));
 
@@ -423,7 +423,7 @@ class TaskServiceTest {
     @Order(400)
     @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editDescriptionTaskByIdSuccessful() {
+    void test_editDescriptionTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -439,7 +439,7 @@ class TaskServiceTest {
     @Order(401)
     @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editDescriptionTaskByIdForbiddenException() {
+    void test_editDescriptionTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -455,7 +455,7 @@ class TaskServiceTest {
     @Test
     @Order(402)
     @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void editDescriptionTaskByIdExceptionTask() {
+    void test_editDescriptionTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editDescriptionTaskById(anyLong(), updateDescriptionTaskDTO));
 
@@ -469,7 +469,7 @@ class TaskServiceTest {
     @Order(700)
     @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editPerformerTaskByIdSuccessful() {
+    void test_editPerformerTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         when(userRepository.findByEmail(anyString()))
@@ -489,7 +489,7 @@ class TaskServiceTest {
     @Order(701)
     @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editPerformerTaskByIdForbiddenException() {
+    void test_editPerformerTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -507,7 +507,7 @@ class TaskServiceTest {
     @Test
     @Order(702)
     @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_TASK_ID)
-    void editPerformerTaskByIdExceptionTask() {
+    void test_editPerformerTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editPerformerTaskById(anyLong(), updatePerformerTaskDTO));
 
@@ -523,7 +523,7 @@ class TaskServiceTest {
     @Order(703)
     @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_AUTHOR_ID)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editPerformerTaskByIdExceptionUser() {
+    void test_editPerformerTaskById_UserEmailNotFoundException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         assertThrows(UserEmailNotFoundException.class, () ->
@@ -541,7 +541,7 @@ class TaskServiceTest {
     @Order(600)
     @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editPriorityTaskByIdSuccessful() {
+    void test_editPriorityTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -557,7 +557,7 @@ class TaskServiceTest {
     @Order(601)
     @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editPriorityTaskByIdForbiddenException() {
+    void test_editPriorityTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -573,7 +573,7 @@ class TaskServiceTest {
     @Test
     @Order(602)
     @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void editPriorityTaskByIdExceptionTask() {
+    void test_editPriorityTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editPriorityTaskById(anyLong(), HIGH));
 
@@ -587,7 +587,7 @@ class TaskServiceTest {
     @Order(500)
     @DisplayName(EDIT_STATUS_TASK_BY_ID_AUTHOR + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editStatusTaskByIdSuccessfulAuthor() {
+    void test_editStatusTaskById_SuccessfulAuthor() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -603,7 +603,7 @@ class TaskServiceTest {
     @Order(501)
     @DisplayName(EDIT_STATUS_TASK_BY_ID_PERFORMER + " - " + SUCCESSFUL)
     @WithMockUser(username = "performer@gmail.com", authorities = "USER")
-    void editStatusTaskByIdSuccessfulPerformer() {
+    void test_editStatusTaskById_SuccessfulPerformer() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -619,7 +619,7 @@ class TaskServiceTest {
     @Order(502)
     @DisplayName(EDIT_STATUS_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editStatusTaskByIdForbiddenException() {
+    void test_editStatusTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -635,7 +635,7 @@ class TaskServiceTest {
     @Test
     @Order(503)
     @DisplayName(EDIT_STATUS_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void editStatusTaskByIdExceptionTask() {
+    void test_editStatusTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editStatusTaskById(anyLong(), IN_PROGRESS));
 
@@ -649,7 +649,7 @@ class TaskServiceTest {
     @Order(800)
     @DisplayName(DELETE_TASK_BY_ID + " - " + SUCCESSFUL)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void deleteTaskByIdSuccessful() {
+    void test_deleteTaskById_Successful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -665,7 +665,7 @@ class TaskServiceTest {
     @Order(801)
     @DisplayName(DELETE_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void deleteTaskByIdForbiddenException() {
+    void test_deleteTaskById_ForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
@@ -681,7 +681,7 @@ class TaskServiceTest {
     @Test
     @Order(802)
     @DisplayName(DELETE_TASK_BY_ID + " - " + EXCEPTION_ID)
-    void deleteTaskByIdExceptionTask() {
+    void test_deleteTaskById_TaskNotFoundException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.deleteTaskById(anyLong()));
 

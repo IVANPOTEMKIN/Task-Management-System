@@ -15,7 +15,7 @@ class CommentMapperTest {
 
     @Test
     @DisplayName(MAPPING)
-    void testCommentToCommentDTO() {
+    void test_commentToCommentDTO() {
         var expected = commentDTO;
         var actual = INSTANCE.commentToCommentDTO(comment);
 
@@ -25,7 +25,7 @@ class CommentMapperTest {
 
     @Test
     @DisplayName(MAPPING)
-    void testCreateOrUpdateCommentDTOToComment() {
+    void test_createOrUpdateCommentDTOToComment() {
         var expected = Comment.builder()
                 .text(TEXT)
                 .build();

@@ -67,14 +67,14 @@ class CommentControllerTest {
     @Order(100)
     @DisplayName(ADD_COMMENT + " - " + STATUS_201)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentStatus201() throws Exception {
+    void test_addComment_Status201() throws Exception {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/task/comment/add/taskId/1")
+                        .post("/task/comment/add/taskId/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -85,15 +85,10 @@ class CommentControllerTest {
     @Order(101)
     @DisplayName(ADD_COMMENT + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentStatus400() throws Exception {
-        when(userRepository.findByEmail(anyString()))
-                .thenReturn(Optional.of(author));
-        when(taskRepository.findById(anyLong()))
-                .thenReturn(Optional.of(task));
-
+    void test_addComment_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/task/comment/add/taskId/1")
-                        .content(objectMapper.writeValueAsString(null))
+                        .post("/task/comment/add/taskId/{id}", 0)
+                        .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -101,10 +96,23 @@ class CommentControllerTest {
 
     @Test
     @Order(102)
-    @DisplayName(ADD_COMMENT + " - " + STATUS_401)
-    void addCommentStatus401() throws Exception {
+    @DisplayName(ADD_COMMENT + " - " + STATUS_400)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
+    void test_addComment_Status400_RequestBodyValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/task/comment/add/taskId/1")
+                        .post("/task/comment/add/taskId/{id}", 1)
+                        .content(objectMapper.writeValueAsString(null))
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(103)
+    @DisplayName(ADD_COMMENT + " - " + STATUS_401)
+    void test_addComment_Status401_UnauthorizedException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/task/comment/add/taskId/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -112,12 +120,28 @@ class CommentControllerTest {
     }
 
     @Test
-    @Order(103)
+    @Order(104)
     @DisplayName(ADD_COMMENT + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void addCommentStatus404() throws Exception {
+    void test_addComment_Status404_TaskNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/task/comment/add/taskId/1")
+                        .post("/task/comment/add/taskId/{id}", 1)
+                        .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(105)
+    @DisplayName(ADD_COMMENT + " - " + STATUS_404)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
+    void test_addComment_Status404_UserEmailNotFoundException() throws Exception {
+        when(taskRepository.findById(anyLong()))
+                .thenReturn(Optional.of(task));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/task/comment/add/taskId/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -128,14 +152,14 @@ class CommentControllerTest {
     @Order(200)
     @DisplayName(GET_COMMENT_BY_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getCommentByIdStatus200() throws Exception {
+    void test_getCommentById_Status200() throws Exception {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         var expected = commentDTO;
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/1"))
+                        .get("/task/comment/get/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text").value(expected.getText()))
                 .andExpect(jsonPath("$.author").value(expected.getAuthor()));
@@ -145,18 +169,18 @@ class CommentControllerTest {
     @Order(201)
     @DisplayName(GET_COMMENT_BY_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getCommentByIdStatus400() throws Exception {
+    void test_getCommentById_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/0"))
+                        .get("/task/comment/get/{id}", 0))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @Order(202)
     @DisplayName(GET_COMMENT_BY_ID + " - " + STATUS_401)
-    void getCommentByIdStatus401() throws Exception {
+    void test_getCommentById_Status401_UnauthorizedException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/1"))
+                        .get("/task/comment/get/{id}", 1))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -164,9 +188,9 @@ class CommentControllerTest {
     @Order(203)
     @DisplayName(GET_COMMENT_BY_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getCommentByIdStatus404() throws Exception {
+    void test_getCommentById_Status404_CommentNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/1"))
+                        .get("/task/comment/get/{id}", 1))
                 .andExpect(status().isNotFound());
     }
 
@@ -174,12 +198,12 @@ class CommentControllerTest {
     @Order(204)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdStatus200() throws Exception {
+    void test_getAllCommentsByTaskId_Status200() throws Exception {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1"))
+                        .get("/task/comment/get/all/taskId/{id}", 1))
                 .andExpect(status().isOk());
     }
 
@@ -187,18 +211,18 @@ class CommentControllerTest {
     @Order(205)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdStatus400() throws Exception {
+    void test_getAllCommentsByTaskId_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/0"))
+                        .get("/task/comment/get/all/taskId/{id}", 0))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @Order(206)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + STATUS_401)
-    void getAllCommentsByTaskIdStatus401() throws Exception {
+    void test_getAllCommentsByTaskId_Status401_UnauthorizedException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1"))
+                        .get("/task/comment/get/all/taskId/{id}", 1))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -206,9 +230,9 @@ class CommentControllerTest {
     @Order(207)
     @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdStatus404() throws Exception {
+    void test_getAllCommentsByTaskId_Status404_TaskNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1"))
+                        .get("/task/comment/get/all/taskId/{id}", 1))
                 .andExpect(status().isNotFound());
     }
 
@@ -216,12 +240,12 @@ class CommentControllerTest {
     @Order(208)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByAuthorIdStatus200() throws Exception {
+    void test_getAllCommentsByAuthorId_Status200() throws Exception {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/authorId/1"))
+                        .get("/task/comment/get/all/authorId/{id}", 1))
                 .andExpect(status().isOk());
     }
 
@@ -229,18 +253,18 @@ class CommentControllerTest {
     @Order(209)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByAuthorIdStatus400() throws Exception {
+    void test_getAllCommentsByAuthorId_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/authorId/0"))
+                        .get("/task/comment/get/all/authorId/{id}", 0))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @Order(210)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + " - " + STATUS_401)
-    void getAllCommentsByAuthorIdStatus401() throws Exception {
+    void test_getAllCommentsByAuthorId_Status401_UnauthorizedException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/authorId/1"))
+                        .get("/task/comment/get/all/authorId/{id}", 1))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -248,9 +272,9 @@ class CommentControllerTest {
     @Order(211)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByAuthorIdStatus404() throws Exception {
+    void test_getAllCommentsByAuthorId_Status404_UserIdNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/authorId/1"))
+                        .get("/task/comment/get/all/authorId/{id}", 1))
                 .andExpect(status().isNotFound());
     }
 
@@ -258,14 +282,14 @@ class CommentControllerTest {
     @Order(212)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdAuthorIdStatus200() throws Exception {
+    void test_getAllCommentsByTaskIdAndAuthorId_Status200() throws Exception {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1/authorId/1"))
+                        .get("/task/comment/get/all/taskId/{taskId}/authorId/{authorId}", 1, 1))
                 .andExpect(status().isOk());
     }
 
@@ -273,18 +297,18 @@ class CommentControllerTest {
     @Order(213)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdAuthorIdStatus400() throws Exception {
+    void test_getAllCommentsByTaskIdAndAuthorId_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/0/authorId/0"))
+                        .get("/task/comment/get/all/taskId/{taskId}/authorId/{authorId}", 0, 0))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @Order(214)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + STATUS_401)
-    void getAllCommentsByTaskIdAuthorIdStatus401() throws Exception {
+    void test_getAllCommentsByTaskIdAndAuthorId_Status401_UnauthorizedException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1/authorId/1"))
+                        .get("/task/comment/get/all/taskId/{taskId}/authorId/{authorId}", 1, 1))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -292,9 +316,25 @@ class CommentControllerTest {
     @Order(215)
     @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void getAllCommentsByTaskIdAuthorIdStatus404() throws Exception {
+    void test_getAllCommentsByTaskIdAndAuthorId_Status404_TaskNotFoundException() throws Exception {
+        when(userRepository.findById(anyLong()))
+                .thenReturn(Optional.of(author));
+
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/task/comment/get/all/taskId/1/authorId/1"))
+                        .get("/task/comment/get/all/taskId/{taskId}/authorId/{authorId}", 1, 1))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(216)
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + STATUS_404)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
+    void test_getAllCommentsByTaskIdAndAuthorId_Status404_UserIdNotFoundException() throws Exception {
+        when(taskRepository.findById(anyLong()))
+                .thenReturn(Optional.of(task));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/task/comment/get/all/taskId/{taskId}/authorId/{authorId}", 1, 1))
                 .andExpect(status().isNotFound());
     }
 
@@ -302,12 +342,12 @@ class CommentControllerTest {
     @Order(300)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editTextCommentByIdStatus200() throws Exception {
+    void test_editTextCommentById_Status200() throws Exception {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/task/comment/edit/1")
+                        .patch("/task/comment/edit/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -318,13 +358,10 @@ class CommentControllerTest {
     @Order(301)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editTextCommentByIdStatus400() throws Exception {
-        when(commentRepository.findById(anyLong()))
-                .thenReturn(Optional.of(comment));
-
+    void test_editTextCommentById_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/task/comment/edit/1")
-                        .content(objectMapper.writeValueAsString(null))
+                        .patch("/task/comment/edit/{id}", 0)
+                        .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -332,10 +369,23 @@ class CommentControllerTest {
 
     @Test
     @Order(302)
-    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_401)
-    void editTextCommentByIdStatus401() throws Exception {
+    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_400)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
+    void test_editTextCommentById_Status400_RequestBodyValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/task/comment/edit/1")
+                        .patch("/task/comment/edit/{id}", 1)
+                        .content(objectMapper.writeValueAsString(null))
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(303)
+    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_401)
+    void test_editTextCommentById_Status401_UnauthorizedException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/task/comment/edit/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -343,15 +393,15 @@ class CommentControllerTest {
     }
 
     @Test
-    @Order(303)
+    @Order(304)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_403)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void editTextCommentByIdStatus403() throws Exception {
+    void test_editTextCommentById_Status403_ForbiddenException() throws Exception {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/task/comment/edit/1")
+                        .patch("/task/comment/edit/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -359,12 +409,12 @@ class CommentControllerTest {
     }
 
     @Test
-    @Order(304)
+    @Order(305)
     @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void editTextCommentByIdStatus404() throws Exception {
+    void test_editTextCommentById_Status404_CommentNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/task/comment/edit/1")
+                        .patch("/task/comment/edit/{id}", 1)
                         .content(objectMapper.writeValueAsString(createOrUpdateCommentDTO))
                         .contentType(APPLICATION_JSON)
                         .with(csrf()))
@@ -375,12 +425,12 @@ class CommentControllerTest {
     @Order(400)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + STATUS_200)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void deleteCommentByIdStatus200() throws Exception {
+    void test_deleteCommentById_Status200() throws Exception {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/task/comment/delete/1")
+                        .delete("/task/comment/delete/{id}", 1)
                         .with(csrf()))
                 .andExpect(status().isOk());
     }
@@ -389,9 +439,9 @@ class CommentControllerTest {
     @Order(401)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + STATUS_400)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void deleteCommentByIdStatus400() throws Exception {
+    void test_deleteCommentById_Status400_IdValidationException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/task/comment/delete/0")
+                        .delete("/task/comment/delete/{id}", 0)
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
     }
@@ -399,9 +449,9 @@ class CommentControllerTest {
     @Test
     @Order(402)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + STATUS_401)
-    void deleteCommentByIdStatus401() throws Exception {
+    void test_deleteCommentById_Status401_UnauthorizedException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/task/comment/delete/1")
+                        .delete("/task/comment/delete/{id}", 1)
                         .with(csrf()))
                 .andExpect(status().isUnauthorized());
     }
@@ -410,12 +460,12 @@ class CommentControllerTest {
     @Order(403)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + STATUS_403)
     @WithMockUser(username = EMAIL_USER, authorities = "USER")
-    void deleteCommentByIdStatus403() throws Exception {
+    void test_deleteCommentById_Status403_ForbiddenException() throws Exception {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/task/comment/delete/1")
+                        .delete("/task/comment/delete/{id}", 1)
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
@@ -424,9 +474,9 @@ class CommentControllerTest {
     @Order(404)
     @DisplayName(DELETE_COMMENT_BY_ID + " - " + STATUS_404)
     @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
-    void deleteCommentByIdStatus404() throws Exception {
+    void test_deleteCommentById_Status404_CommentNotFoundException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/task/comment/delete/1")
+                        .delete("/task/comment/delete/{id}", 1)
                         .with(csrf()))
                 .andExpect(status().isNotFound());
     }

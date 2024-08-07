@@ -40,7 +40,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName(REGISTER + " - " + SUCCESSFUL)
-    void testRegisterSuccessful() {
+    void test_register_Successful() {
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
                 .thenReturn(TOKEN);
 
@@ -62,7 +62,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName(REGISTER + " - " + EXCEPTION_UNIQUE)
-    void testRegisterException() {
+    void test_register_EmailAlreadyUseException() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 
@@ -79,7 +79,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName(LOGIN + " - " + SUCCESSFUL)
-    void testLoginSuccessful() {
+    void test_login_Successful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
@@ -99,7 +99,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName(LOGIN + " - " + EXCEPTION_EMAIL)
-    void testLoginException() {
+    void test_login_UserEmailNotFoundException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 authService.login(loginDTO));
 

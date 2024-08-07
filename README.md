@@ -190,19 +190,10 @@ API должно позволять получать задачи конкрет
 </li>
 
 <li>
-<i> Запустить команду для сборки проекта в jar </i>
-
-<br>
-
-<blockquote> ./mvnw clean package -DskipTests </blockquote>
-</li>
-
-<li>
 <i> Запустить команду для поднятия dev окружения с помощью docker-compose.yml </i>
 
-<br>
-
 <blockquote> docker-compose up </blockquote>
+
 </li>
 
 <li>
@@ -211,8 +202,6 @@ API должно позволять получать задачи конкрет
 
 <li>
 <i> При необходимости использовать следующие данные для авторизации: </i>
-
-<br>
 
 <blockquote> Логин: ivan@gmail.com </blockquote>
 <blockquote> Пароль: QwErTy.1234 </blockquote>

@@ -60,10 +60,10 @@ public interface CommentService {
      * @param limit    кол-во комментариев на странице
      * @return список комментариев
      */
-    List<CommentDTO> getAllCommentsByTaskIdAuthorId(@Positive(message = ID_MESSAGE) Long taskId,
-                                                    @Positive(message = ID_MESSAGE) Long authorId,
-                                                    @Positive(message = OFFSET_MESSAGE) Integer offset,
-                                                    @Positive(message = LIMIT_MESSAGE) Integer limit);
+    List<CommentDTO> getAllCommentsByTaskIdAndAuthorId(@Positive(message = ID_MESSAGE) Long taskId,
+                                                       @Positive(message = ID_MESSAGE) Long authorId,
+                                                       @Positive(message = OFFSET_MESSAGE) Integer offset,
+                                                       @Positive(message = LIMIT_MESSAGE) Integer limit);
 
     /**
      * Изменение текста комментария по ID
