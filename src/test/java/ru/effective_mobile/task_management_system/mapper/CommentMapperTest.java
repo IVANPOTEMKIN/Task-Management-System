@@ -7,12 +7,14 @@ import ru.effective_mobile.task_management_system.model.Comment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.effective_mobile.task_management_system.mapper.CommentMapper.INSTANCE;
+import static ru.effective_mobile.task_management_system.utils.Constants.TEXT;
+import static ru.effective_mobile.task_management_system.utils.Naming.MAPPING;
 import static ru.effective_mobile.task_management_system.utils.UtilsMapper.*;
 
 class CommentMapperTest {
 
     @Test
-    @DisplayName(value = "Маппинг - успешно")
+    @DisplayName(MAPPING)
     void testCommentToCommentDTO() {
         var expected = commentDTO;
         var actual = INSTANCE.commentToCommentDTO(comment);
@@ -22,10 +24,10 @@ class CommentMapperTest {
     }
 
     @Test
-    @DisplayName(value = "Маппинг - успешно")
+    @DisplayName(MAPPING)
     void testCreateOrUpdateCommentDTOToComment() {
         var expected = Comment.builder()
-                .text("Текст комментария")
+                .text(TEXT)
                 .build();
 
         var actual = INSTANCE.createOrUpdateCommentDTOToComment(createOrUpdateCommentDTO);

@@ -142,7 +142,7 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/taskId/{ID}")
+    @GetMapping("/get/all/taskId/{ID}")
     public ResponseEntity<List<CommentDTO>> getAllCommentsByTaskId(@PathVariable(name = "ID") Long id,
                                                                    @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                    @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
@@ -186,7 +186,7 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/authorId/{ID}")
+    @GetMapping("/get/all/authorId/{ID}")
     public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorId(@PathVariable(name = "ID") Long id,
                                                                      @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,
                                                                      @RequestParam(name = "Кол-во комментариев", defaultValue = "20") Integer limit) {
@@ -230,7 +230,7 @@ public class CommentController {
             }
     )
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/getAll/taskId/{ID_TASK}/authorId/{ID_AUTHOR}")
+    @GetMapping("/get/all/taskId/{ID_TASK}/authorId/{ID_AUTHOR}")
     public ResponseEntity<List<CommentDTO>> getAllCommentsByAuthorIdAndTaskId(@PathVariable(name = "ID_TASK") Long taskId,
                                                                               @PathVariable(name = "ID_AUTHOR") Long authorId,
                                                                               @RequestParam(name = "Кол-во страниц", defaultValue = "1") Integer offset,

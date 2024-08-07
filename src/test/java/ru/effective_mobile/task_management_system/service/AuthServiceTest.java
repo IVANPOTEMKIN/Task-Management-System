@@ -20,6 +20,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static ru.effective_mobile.task_management_system.utils.Constants.TOKEN;
+import static ru.effective_mobile.task_management_system.utils.Naming.*;
 import static ru.effective_mobile.task_management_system.utils.UtilsService.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,12 +39,12 @@ class AuthServiceTest {
     private AuthServiceImpl authService;
 
     @Test
-    @DisplayName(value = "Регистрация - успешно")
+    @DisplayName(REGISTER_SUCCESSFUL)
     void testRegisterSuccessful() {
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
-                .thenReturn("token");
+                .thenReturn(TOKEN);
 
-        var expected = new JwtDTO("token");
+        var expected = new JwtDTO(TOKEN);
         var actual = authService.register(registerDTO);
 
         assertNotNull(actual);
@@ -59,7 +61,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(value = "Регистрация - ошибка (Указан неуникальный email)")
+    @DisplayName(REGISTER_EXCEPTION)
     void testRegisterException() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -76,14 +78,14 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(value = "Авторизация - успешно")
+    @DisplayName(LOGIN_SUCCESSFUL)
     void testLoginSuccessful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
         when(jwtService.generateToken(any(UserDetailsImpl.class)))
-                .thenReturn("token");
+                .thenReturn(TOKEN);
 
-        var expected = new JwtDTO("token");
+        var expected = new JwtDTO(TOKEN);
         var actual = authService.login(loginDTO);
 
         assertNotNull(actual);
@@ -96,7 +98,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName(value = "Авторизация - ошибка (Указан несуществующий email)")
+    @DisplayName(LOGIN_EXCEPTION)
     void testLoginException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 authService.login(loginDTO));

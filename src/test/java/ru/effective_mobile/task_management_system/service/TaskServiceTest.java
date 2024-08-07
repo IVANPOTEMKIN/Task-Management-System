@@ -10,9 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdateDescriptionTaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdateHeaderTaskDTO;
-import ru.effective_mobile.task_management_system.dto.tasks.UpdatePerformerTaskDTO;
 import ru.effective_mobile.task_management_system.enums.PriorityTask;
 import ru.effective_mobile.task_management_system.enums.StatusTask;
 import ru.effective_mobile.task_management_system.exception.ForbiddenException;
@@ -35,6 +32,8 @@ import static ru.effective_mobile.task_management_system.enums.PriorityTask.HIGH
 import static ru.effective_mobile.task_management_system.enums.PriorityTask.MEDIUM;
 import static ru.effective_mobile.task_management_system.enums.StatusTask.IN_PROGRESS;
 import static ru.effective_mobile.task_management_system.enums.StatusTask.IS_PENDING;
+import static ru.effective_mobile.task_management_system.utils.Constants.*;
+import static ru.effective_mobile.task_management_system.utils.Naming.*;
 import static ru.effective_mobile.task_management_system.utils.UtilsService.*;
 
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
@@ -55,8 +54,8 @@ class TaskServiceTest {
 
     @Test
     @Order(100)
-    @DisplayName(value = "Добавление новой задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(ADD_TASK + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void addTaskSuccessful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -73,7 +72,7 @@ class TaskServiceTest {
 
     @Test
     @Order(200)
-    @DisplayName(value = "Получение задачи по ID - успешно")
+    @DisplayName(GET_TASK_BY_ID + " - " + SUCCESSFUL)
     void getTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -90,7 +89,7 @@ class TaskServiceTest {
 
     @Test
     @Order(201)
-    @DisplayName(value = "Получение задачи по ID - ошибка (Указан несуществующий ID)")
+    @DisplayName(GET_TASK_BY_ID + " - " + EXCEPTION_ID)
     void getTaskByIdException() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.getTaskById(anyLong()));
@@ -101,7 +100,7 @@ class TaskServiceTest {
 
     @Test
     @Order(202)
-    @DisplayName(value = "Получение всех задач - успешно")
+    @DisplayName(GET_ALL_TASKS + " - " + SUCCESSFUL)
     void getAllTasksSuccessful() {
         Page<Task> page = new PageImpl<>(List.of(task));
 
@@ -120,13 +119,13 @@ class TaskServiceTest {
 
     @Test
     @Order(203)
-    @DisplayName(value = "Получение всех задач по заголовку - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_HEADER + " - " + SUCCESSFUL)
     void getAllTasksByHeaderSuccessful() {
         when(taskRepository.findAllByHeaderContainingIgnoreCase(anyString(), any(Pageable.class)))
                 .thenReturn(List.of(task));
 
         var expected = listTaskDTO;
-        var actual = taskService.getAllTasksByHeader("Заголовок", 1, 1);
+        var actual = taskService.getAllTasksByHeader(HEADER, 1, 1);
 
         assertNotNull(actual);
         assertEquals(expected, actual);
@@ -138,7 +137,7 @@ class TaskServiceTest {
 
     @Test
     @Order(204)
-    @DisplayName(value = "Получение всех задач по статусу - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_STATUS + " - " + SUCCESSFUL)
     void getAllTasksByStatusSuccessful() {
         when(taskRepository.findAllByStatus(any(StatusTask.class), any(Pageable.class)))
                 .thenReturn(List.of(task));
@@ -155,7 +154,7 @@ class TaskServiceTest {
 
     @Test
     @Order(205)
-    @DisplayName(value = "Получение всех задач по приоритету - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_PRIORITY + " - " + SUCCESSFUL)
     void getAllTasksByPrioritySuccessful() {
         when(taskRepository.findAllByPriority(any(PriorityTask.class), any(Pageable.class)))
                 .thenReturn(List.of(task));
@@ -172,7 +171,7 @@ class TaskServiceTest {
 
     @Test
     @Order(206)
-    @DisplayName(value = "Получение всех задач по ID автора - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_ID + " - " + SUCCESSFUL)
     void getAllTasksByAuthorIdSuccessful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
@@ -193,7 +192,7 @@ class TaskServiceTest {
 
     @Test
     @Order(207)
-    @DisplayName(value = "Получение всех задач по ID автора - ошибка (Указан несуществующий ID)")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_ID + " - " + EXCEPTION_ID)
     void getAllTasksByAuthorIdException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorId(anyLong(), 1, 1));
@@ -206,7 +205,7 @@ class TaskServiceTest {
 
     @Test
     @Order(208)
-    @DisplayName(value = "Получение всех задач по ID исполнителя - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_ID + " - " + SUCCESSFUL)
     void getAllTasksByPerformerIdSuccessful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(performer));
@@ -227,7 +226,7 @@ class TaskServiceTest {
 
     @Test
     @Order(209)
-    @DisplayName(value = "Получение всех задач по ID исполнителя - ошибка (Указан несуществующий ID)")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_ID + " - " + EXCEPTION_ID)
     void getAllTasksByPerformerIdException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerId(anyLong(), 1, 1));
@@ -240,7 +239,7 @@ class TaskServiceTest {
 
     @Test
     @Order(210)
-    @DisplayName(value = "Получение всех задач по email автора - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_EMAIL + " - " + SUCCESSFUL)
     void getAllTasksByAuthorEmailSuccessful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
                 .thenReturn(Optional.of(author));
@@ -261,7 +260,7 @@ class TaskServiceTest {
 
     @Test
     @Order(211)
-    @DisplayName(value = "Получение всех задач по email автора - ошибка (Указан несуществующий email)")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_EMAIL + " - " + EXCEPTION_EMAIL)
     void getAllTasksByAuthorEmailException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorEmail(anyString(), 1, 1));
@@ -274,7 +273,7 @@ class TaskServiceTest {
 
     @Test
     @Order(212)
-    @DisplayName(value = "Получение всех задач по email исполнителя - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_EMAIL + " - " + SUCCESSFUL)
     void getAllTasksByPerformerEmailSuccessful() {
         when(userRepository.findByEmailContainingIgnoreCase(anyString()))
                 .thenReturn(Optional.of(author));
@@ -295,7 +294,7 @@ class TaskServiceTest {
 
     @Test
     @Order(213)
-    @DisplayName(value = "Получение всех задач по email исполнителя - ошибка (Указан несуществующий email)")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_EMAIL + " - " + EXCEPTION_EMAIL)
     void getAllTasksByPerformerEmailException() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerEmail(anyString(), 1, 1));
@@ -308,7 +307,7 @@ class TaskServiceTest {
 
     @Test
     @Order(214)
-    @DisplayName(value = "Получение всех задач по имени автора - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_FULL_NAME + " - " + SUCCESSFUL)
     void getAllTasksByAuthorFullNameSuccessful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
                 .thenReturn(Optional.of(author));
@@ -329,7 +328,7 @@ class TaskServiceTest {
 
     @Test
     @Order(215)
-    @DisplayName(value = "Получение всех задач по имени автора - ошибка (Указано несуществующее имя)")
+    @DisplayName(GET_ALL_TASKS_BY_AUTHOR_FULL_NAME + " - " + EXCEPTION_NAME)
     void getAllTasksByAuthorFullNameException() {
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByAuthorFullName(anyString(), anyString(), 1, 1));
@@ -342,7 +341,7 @@ class TaskServiceTest {
 
     @Test
     @Order(216)
-    @DisplayName(value = "Получение всех задач по имени исполнителя - успешно")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_FULL_NAME + " - " + SUCCESSFUL)
     void getAllTasksByPerformerFullNameSuccessful() {
         when(userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(anyString(), anyString()))
                 .thenReturn(Optional.of(author));
@@ -363,7 +362,7 @@ class TaskServiceTest {
 
     @Test
     @Order(217)
-    @DisplayName(value = "Получение всех задач по имени исполнителя - ошибка (Указано несуществующее имя)")
+    @DisplayName(GET_ALL_TASKS_BY_PERFORMER_FULL_NAME + " - " + EXCEPTION_NAME)
     void getAllTasksByPerformerFullNameException() {
         assertThrows(UserFullNameNotFoundException.class, () ->
                 taskService.getAllTasksByPerformerFullName(anyString(), anyString(), 1, 1));
@@ -376,13 +375,13 @@ class TaskServiceTest {
 
     @Test
     @Order(300)
-    @DisplayName(value = "Изменение заголовка по ID задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editHeaderTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
-        assertTrue(taskService.editHeaderTaskById(anyLong(), new UpdateHeaderTaskDTO("Новый заголовок")));
+        assertTrue(taskService.editHeaderTaskById(anyLong(), updateHeaderTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -392,14 +391,14 @@ class TaskServiceTest {
 
     @Test
     @Order(301)
-    @DisplayName(value = "Изменение заголовка по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editHeaderTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
         assertThrows(ForbiddenException.class, () ->
-                taskService.editHeaderTaskById(anyLong(), new UpdateHeaderTaskDTO("Новый заголовок")));
+                taskService.editHeaderTaskById(anyLong(), updateHeaderTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -409,10 +408,10 @@ class TaskServiceTest {
 
     @Test
     @Order(302)
-    @DisplayName(value = "Изменение заголовка по ID задачи - ошибка (Указан несуществующий ID)")
+    @DisplayName(EDIT_HEADER_TASK_BY_ID + " - " + EXCEPTION_ID)
     void editHeaderTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
-                taskService.editHeaderTaskById(anyLong(), new UpdateHeaderTaskDTO("Новый заголовок")));
+                taskService.editHeaderTaskById(anyLong(), updateHeaderTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -422,13 +421,13 @@ class TaskServiceTest {
 
     @Test
     @Order(400)
-    @DisplayName(value = "Изменение описания по ID задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editDescriptionTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
-        assertTrue(taskService.editDescriptionTaskById(anyLong(), new UpdateDescriptionTaskDTO("Новое описание задачи")));
+        assertTrue(taskService.editDescriptionTaskById(anyLong(), updateDescriptionTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -438,14 +437,14 @@ class TaskServiceTest {
 
     @Test
     @Order(401)
-    @DisplayName(value = "Изменение описания по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editDescriptionTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
         assertThrows(ForbiddenException.class, () ->
-                taskService.editDescriptionTaskById(anyLong(), new UpdateDescriptionTaskDTO("Новое описание задачи")));
+                taskService.editDescriptionTaskById(anyLong(), updateDescriptionTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -455,10 +454,10 @@ class TaskServiceTest {
 
     @Test
     @Order(402)
-    @DisplayName(value = "Изменение описания по ID задачи - ошибка (Указан несуществующий ID)")
+    @DisplayName(EDIT_DESCRIPTION_TASK_BY_ID + " - " + EXCEPTION_ID)
     void editDescriptionTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
-                taskService.editDescriptionTaskById(anyLong(), new UpdateDescriptionTaskDTO("Новое описание задачи")));
+                taskService.editDescriptionTaskById(anyLong(), updateDescriptionTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -468,15 +467,15 @@ class TaskServiceTest {
 
     @Test
     @Order(700)
-    @DisplayName(value = "Изменение исполнителя по ID задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editPerformerTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
 
-        assertTrue(taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
+        assertTrue(taskService.editPerformerTaskById(anyLong(), updatePerformerTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -488,14 +487,14 @@ class TaskServiceTest {
 
     @Test
     @Order(701)
-    @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editPerformerTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
 
         assertThrows(ForbiddenException.class, () ->
-                taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
+                taskService.editPerformerTaskById(anyLong(), updatePerformerTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -507,10 +506,10 @@ class TaskServiceTest {
 
     @Test
     @Order(702)
-    @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Указан несуществующий ID задачи)")
+    @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_TASK_ID)
     void editPerformerTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
-                taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
+                taskService.editPerformerTaskById(anyLong(), updatePerformerTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -522,13 +521,13 @@ class TaskServiceTest {
 
     @Test
     @Order(703)
-    @DisplayName(value = "Изменение исполнителя по ID задачи - ошибка (Указан несуществующий ID исполнителя)")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_PERFORMER_TASK_BY_ID + " - " + EXCEPTION_AUTHOR_ID)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editPerformerTaskByIdExceptionUser() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
         assertThrows(UserEmailNotFoundException.class, () ->
-                taskService.editPerformerTaskById(anyLong(), new UpdatePerformerTaskDTO("author@gmail.com")));
+                taskService.editPerformerTaskById(anyLong(), updatePerformerTaskDTO));
 
         verify(taskRepository, times(1))
                 .findById(anyLong());
@@ -540,8 +539,8 @@ class TaskServiceTest {
 
     @Test
     @Order(600)
-    @DisplayName(value = "Изменение приоритета по ID задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editPriorityTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -556,8 +555,8 @@ class TaskServiceTest {
 
     @Test
     @Order(601)
-    @DisplayName(value = "Изменение приоритета по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editPriorityTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -573,7 +572,7 @@ class TaskServiceTest {
 
     @Test
     @Order(602)
-    @DisplayName(value = "Изменение приоритета по ID задачи - ошибка (Указан несуществующий ID)")
+    @DisplayName(EDIT_PRIORITY_TASK_BY_ID + " - " + EXCEPTION_ID)
     void editPriorityTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editPriorityTaskById(anyLong(), HIGH));
@@ -586,8 +585,8 @@ class TaskServiceTest {
 
     @Test
     @Order(500)
-    @DisplayName(value = "Изменение статуса по ID задачи автором - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_STATUS_TASK_BY_ID_AUTHOR + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editStatusTaskByIdSuccessfulAuthor() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -602,7 +601,7 @@ class TaskServiceTest {
 
     @Test
     @Order(501)
-    @DisplayName(value = "Изменение статуса по ID задачи исполнителем - успешно")
+    @DisplayName(EDIT_STATUS_TASK_BY_ID_PERFORMER + " - " + SUCCESSFUL)
     @WithMockUser(username = "performer@gmail.com", authorities = "USER")
     void editStatusTaskByIdSuccessfulPerformer() {
         when(taskRepository.findById(anyLong()))
@@ -618,8 +617,8 @@ class TaskServiceTest {
 
     @Test
     @Order(502)
-    @DisplayName(value = "Изменение статуса по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_STATUS_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editStatusTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -635,7 +634,7 @@ class TaskServiceTest {
 
     @Test
     @Order(503)
-    @DisplayName(value = "Изменение статуса по ID задачи - ошибка (Указан несуществующий ID)")
+    @DisplayName(EDIT_STATUS_TASK_BY_ID + " - " + EXCEPTION_ID)
     void editStatusTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.editStatusTaskById(anyLong(), IN_PROGRESS));
@@ -648,8 +647,8 @@ class TaskServiceTest {
 
     @Test
     @Order(800)
-    @DisplayName(value = "Удаление задачи по ID задачи - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(DELETE_TASK_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void deleteTaskByIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -664,8 +663,8 @@ class TaskServiceTest {
 
     @Test
     @Order(801)
-    @DisplayName(value = "Удаление задачи по ID задачи - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(DELETE_TASK_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void deleteTaskByIdForbiddenException() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -681,7 +680,7 @@ class TaskServiceTest {
 
     @Test
     @Order(802)
-    @DisplayName(value = "Удаление задачи по ID задачи - ошибка (Указан несуществующий ID)")
+    @DisplayName(DELETE_TASK_BY_ID + " - " + EXCEPTION_ID)
     void deleteTaskByIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
                 taskService.deleteTaskById(anyLong()));

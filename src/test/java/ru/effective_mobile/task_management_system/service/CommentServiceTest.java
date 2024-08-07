@@ -8,7 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCommentDTO;
 import ru.effective_mobile.task_management_system.exception.CommentNotFoundException;
 import ru.effective_mobile.task_management_system.exception.ForbiddenException;
 import ru.effective_mobile.task_management_system.exception.task.TaskNotFoundException;
@@ -29,6 +28,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static ru.effective_mobile.task_management_system.utils.Constants.EMAIL_AUTHOR;
+import static ru.effective_mobile.task_management_system.utils.Constants.EMAIL_USER;
+import static ru.effective_mobile.task_management_system.utils.Naming.*;
 import static ru.effective_mobile.task_management_system.utils.UtilsService.*;
 
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
@@ -51,8 +53,8 @@ class CommentServiceTest {
 
     @Test
     @Order(100)
-    @DisplayName(value = "Добавление нового комментария - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(ADD_COMMENT + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void addCommentSuccessful() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -71,8 +73,8 @@ class CommentServiceTest {
 
     @Test
     @Order(101)
-    @DisplayName(value = "Добавление нового комментария - ошибка (Указан несуществующий email автора)")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(ADD_COMMENT + " - " + EXCEPTION_EMAIL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void addCommentExceptionAuthor() {
         assertThrows(UserEmailNotFoundException.class, () ->
                 commentService.addComment(anyLong(), createOrUpdateCommentDTO));
@@ -87,8 +89,8 @@ class CommentServiceTest {
 
     @Test
     @Order(102)
-    @DisplayName(value = "Добавление нового комментария - ошибка (Указан несуществующий ID задачи)")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(ADD_COMMENT + " - " + EXCEPTION_ID)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void addCommentExceptionTask() {
         when(userRepository.findByEmail(anyString()))
                 .thenReturn(Optional.of(author));
@@ -105,7 +107,7 @@ class CommentServiceTest {
 
     @Test
     @Order(200)
-    @DisplayName(value = "Получение комментария по ID - успешно")
+    @DisplayName(GET_COMMENT_BY_ID + " - " + SUCCESSFUL)
     void getCommentByIdSuccessful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
@@ -122,7 +124,7 @@ class CommentServiceTest {
 
     @Test
     @Order(201)
-    @DisplayName(value = "Получение комментария по ID - ошибка (Указан несуществующий ID)")
+    @DisplayName(GET_COMMENT_BY_ID + " - " + EXCEPTION_ID)
     void getCommentByIdException() {
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.getCommentById(anyLong()));
@@ -133,7 +135,7 @@ class CommentServiceTest {
 
     @Test
     @Order(202)
-    @DisplayName(value = "Получение всех комментариев по ID задачи - успешно")
+    @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + SUCCESSFUL)
     void getAllCommentsByTaskIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -154,7 +156,7 @@ class CommentServiceTest {
 
     @Test
     @Order(203)
-    @DisplayName(value = "Получение всех комментариев по ID задачи - ошибка (Указан несуществующий ID задачи)")
+    @DisplayName(GET_ALL_COMMENTS_BY_TASK_ID + " - " + EXCEPTION_TASK_ID)
     void getAllCommentsByTaskIdException() {
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskId(anyLong(), 1, 1));
@@ -167,7 +169,7 @@ class CommentServiceTest {
 
     @Test
     @Order(204)
-    @DisplayName(value = "Получение всех комментариев по ID автора - успешно")
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + "  - " + SUCCESSFUL)
     void getAllCommentsByAuthorIdSuccessful() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(author));
@@ -188,7 +190,7 @@ class CommentServiceTest {
 
     @Test
     @Order(205)
-    @DisplayName(value = "Получение всех комментариев по ID автора - ошибка (Указан несуществующий ID автора)")
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID + "  - " + EXCEPTION_AUTHOR_ID)
     void getAllCommentsByAuthorIdException() {
         assertThrows(UserIdNotFoundException.class, () ->
                 commentService.getAllCommentsByAuthorId(anyLong(), 1, 1));
@@ -201,7 +203,7 @@ class CommentServiceTest {
 
     @Test
     @Order(206)
-    @DisplayName(value = "Получение всех комментариев по ID задачи и ID автора - успешно")
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + SUCCESSFUL)
     void getAllCommentsByTaskIdAuthorIdSuccessful() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -226,7 +228,7 @@ class CommentServiceTest {
 
     @Test
     @Order(207)
-    @DisplayName(value = "Получение всех комментариев по ID задачи и ID автора - ошибка (Указан несуществующий ID задачи)")
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + EXCEPTION_TASK_ID)
     void getAllCommentsByTaskIdAuthorIdExceptionTask() {
         assertThrows(TaskNotFoundException.class, () ->
                 commentService.getAllCommentsByTaskIdAuthorId(1L, 1L, 1, 1));
@@ -241,7 +243,7 @@ class CommentServiceTest {
 
     @Test
     @Order(208)
-    @DisplayName(value = "Получение всех комментариев по ID задачи и ID автора - ошибка (Указан несуществующий ID автора)")
+    @DisplayName(GET_ALL_COMMENTS_BY_AUTHOR_ID_AND_TASK_ID + " - " + EXCEPTION_AUTHOR_ID)
     void getAllCommentsByTaskIdAuthorIdExceptionAuthor() {
         when(taskRepository.findById(anyLong()))
                 .thenReturn(Optional.of(task));
@@ -258,14 +260,13 @@ class CommentServiceTest {
 
     @Test
     @Order(300)
-    @DisplayName(value = "Изменение текста комментария по ID - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void editTextCommentSuccessful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
-        assertTrue(commentService.editTextComment(anyLong(),
-                new CreateOrUpdateCommentDTO("Новый текст комментария")));
+        assertTrue(commentService.editTextComment(anyLong(), createOrUpdateCommentDTO));
 
         verify(commentRepository, times(1))
                 .findById(anyLong());
@@ -275,14 +276,14 @@ class CommentServiceTest {
 
     @Test
     @Order(301)
-    @DisplayName(value = "Изменение текста комментария по ID - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void editTextCommentForbiddenException() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
 
         assertThrows(ForbiddenException.class, () ->
-                commentService.editTextComment(anyLong(), new CreateOrUpdateCommentDTO("Новый текст комментария")));
+                commentService.editTextComment(anyLong(), createOrUpdateCommentDTO));
 
         verify(commentRepository, times(1))
                 .findById(anyLong());
@@ -292,10 +293,10 @@ class CommentServiceTest {
 
     @Test
     @Order(302)
-    @DisplayName(value = "Изменение текста комментария по ID - ошибка (Указан несуществующий ID)")
+    @DisplayName(EDIT_TEXT_COMMENT_BY_ID + " - " + EXCEPTION_ID)
     void editTextCommentExceptionComment() {
         assertThrows(CommentNotFoundException.class, () ->
-                commentService.editTextComment(anyLong(), new CreateOrUpdateCommentDTO("Новый текст комментария")));
+                commentService.editTextComment(anyLong(), createOrUpdateCommentDTO));
 
         verify(commentRepository, times(1))
                 .findById(anyLong());
@@ -305,8 +306,8 @@ class CommentServiceTest {
 
     @Test
     @Order(400)
-    @DisplayName(value = "Удаление комментария по ID - успешно")
-    @WithMockUser(username = "author@gmail.com", authorities = "USER")
+    @DisplayName(DELETE_COMMENT_BY_ID + " - " + SUCCESSFUL)
+    @WithMockUser(username = EMAIL_AUTHOR, authorities = "USER")
     void deleteCommentSuccessful() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
@@ -321,8 +322,8 @@ class CommentServiceTest {
 
     @Test
     @Order(401)
-    @DisplayName(value = "Удаление комментария по ID - ошибка (Ошибка доступа)")
-    @WithMockUser(username = "user@gmail.com", authorities = "USER")
+    @DisplayName(DELETE_COMMENT_BY_ID + " - " + EXCEPTION_FORBIDDEN)
+    @WithMockUser(username = EMAIL_USER, authorities = "USER")
     void deleteCommentForbiddenException() {
         when(commentRepository.findById(anyLong()))
                 .thenReturn(Optional.of(comment));
@@ -338,7 +339,7 @@ class CommentServiceTest {
 
     @Test
     @Order(402)
-    @DisplayName(value = "Удаление комментария по ID - ошибка (Указан несуществующий ID)")
+    @DisplayName(DELETE_COMMENT_BY_ID + " - " + EXCEPTION_ID)
     void deleteCommentExceptionComment() {
         assertThrows(CommentNotFoundException.class, () ->
                 commentService.deleteComment(anyLong()));

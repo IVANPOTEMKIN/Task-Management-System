@@ -9,12 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.effective_mobile.task_management_system.enums.PriorityTask.MEDIUM;
 import static ru.effective_mobile.task_management_system.enums.StatusTask.IS_PENDING;
 import static ru.effective_mobile.task_management_system.mapper.TaskMapper.INSTANCE;
+import static ru.effective_mobile.task_management_system.utils.Constants.DESCRIPTION;
+import static ru.effective_mobile.task_management_system.utils.Constants.HEADER;
+import static ru.effective_mobile.task_management_system.utils.Naming.MAPPING;
 import static ru.effective_mobile.task_management_system.utils.UtilsMapper.*;
 
 class TaskMapperTest {
 
     @Test
-    @DisplayName(value = "Маппинг - успешно")
+    @DisplayName(MAPPING)
     void testTaskToTaskDTO() {
         var expected = taskDTO;
         var actual = INSTANCE.taskToTaskDTO(task);
@@ -24,11 +27,11 @@ class TaskMapperTest {
     }
 
     @Test
-    @DisplayName(value = "Маппинг - успешно")
+    @DisplayName(MAPPING)
     void testCreateTaskDTOToTask() {
         var expected = Task.builder()
-                .header("Заголовок задачи")
-                .description("Описание задачи")
+                .header(HEADER)
+                .description(DESCRIPTION)
                 .status(IS_PENDING)
                 .priority(MEDIUM)
                 .build();
