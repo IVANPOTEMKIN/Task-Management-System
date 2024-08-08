@@ -192,7 +192,7 @@ API должно позволять получать задачи конкрет
 <li>
 <i> Запустить команду для поднятия dev окружения с помощью docker-compose.yml </i>
 
-<blockquote> docker-compose up </blockquote>
+<br> <blockquote> docker-compose up </blockquote>
 
 </li>
 
@@ -203,8 +203,8 @@ API должно позволять получать задачи конкрет
 <li>
 <i> При необходимости использовать следующие данные для авторизации: </i>
 
-<blockquote> Логин: ivan@gmail.com </blockquote>
-<blockquote> Пароль: QwErTy.1234 </blockquote>
+<br> <blockquote> Логин: ivan@gmail.com </blockquote>
+<br> <blockquote> Пароль: QwErTy.1234 </blockquote>
 
 </li>
 

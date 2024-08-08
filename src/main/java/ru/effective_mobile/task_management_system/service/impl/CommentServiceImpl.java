@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.effective_mobile.task_management_system.dto.comments.CommentDTO;
 import ru.effective_mobile.task_management_system.dto.comments.CreateOrUpdateCommentDTO;
@@ -32,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
     private final TaskRepository taskRepository;
     private final CommentRepository commentRepository;
 
+    @Transactional
     @Override
     public boolean addComment(Long id, CreateOrUpdateCommentDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -97,6 +99,7 @@ public class CommentServiceImpl implements CommentService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public boolean editTextComment(Long id, CreateOrUpdateCommentDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -113,6 +116,7 @@ public class CommentServiceImpl implements CommentService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean deleteComment(Long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();

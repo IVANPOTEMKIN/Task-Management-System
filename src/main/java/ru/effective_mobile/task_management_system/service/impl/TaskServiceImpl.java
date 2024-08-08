@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.effective_mobile.task_management_system.dto.tasks.*;
 import ru.effective_mobile.task_management_system.enums.PriorityTask;
@@ -33,6 +34,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
+    @Transactional
     @Override
     public boolean addTask(CreateTaskDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -175,6 +177,7 @@ public class TaskServiceImpl implements TaskService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public boolean editHeaderTaskById(Long id, UpdateHeaderTaskDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -191,6 +194,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean editDescriptionTaskById(Long id, UpdateDescriptionTaskDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -207,6 +211,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean editPerformerTaskById(Long id, UpdatePerformerTaskDTO dto) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -226,6 +231,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean editStatusTaskById(Long id, StatusTask status) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -244,6 +250,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean editPriorityTaskById(Long id, PriorityTask priority) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -260,6 +267,7 @@ public class TaskServiceImpl implements TaskService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean deleteTaskById(Long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
